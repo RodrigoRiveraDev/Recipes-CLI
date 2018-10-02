@@ -9,7 +9,11 @@ public class User {
     private String email;
     private String password;
 
-    public User() {}
+    public User() {
+        this.fullName = "";
+        this.email = "";
+        this.password = "";
+    }
 
     public User(long id, String fullName, String email, String password) {
         this.id = id;
@@ -57,5 +61,11 @@ public class User {
                 ",\"fullName\" : \"" + fullName + "\"" +
                 ",\"email\" : \"" + email + "\""
                 +"}";
+    }
+
+    public boolean hasAllParameters() {
+        return  !fullName.isEmpty() &&
+                !email.isEmpty() &&
+                !password.isEmpty();
     }
 }

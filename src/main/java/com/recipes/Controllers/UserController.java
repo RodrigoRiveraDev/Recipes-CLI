@@ -21,7 +21,10 @@ public class UserController {
     private IUserServices userServices;
 
     @RequestMapping(produces = "application/json", method = RequestMethod.POST)
-    public HttpEntity<String> registerUser(@RequestBody User newUser) {
+    public HttpEntity<String> registerUser(@RequestBody User newUser) throws IllegalArgumentException {
+        if(!newUser.hasAllParameters()) {
+            throw new IllegalArgumentException("All the parameters must not be nulls or empties");
+        }
         userServices.save(newUser);
         return new HttpEntity<String>(newUser.toString());
     }
