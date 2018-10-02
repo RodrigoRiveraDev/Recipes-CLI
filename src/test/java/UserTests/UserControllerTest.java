@@ -59,6 +59,16 @@ public class UserControllerTest {
         userController.registerUser(newUser);
         HttpEntity<User> response = userController.getUserById(1);
         User foundedUser = response.getBody();
-        Assert.assertTrue(foundedUser.equals(newUser));
+        Assert.assertTrue(foundedUser.toString().equals(newUser.toString()));
+    }
+
+    @Test
+    public void updateUser()  {
+        User newUser = new User(1, "fullName", "email", "password");
+        userController.registerUser(newUser);
+        User updateInfo = new User(1, "NewfullName", "Newemail", "password");
+        HttpEntity<User> response = userController.updateUser(1, updateInfo);
+        User updatedUser = response.getBody();
+        Assert.assertTrue(updatedUser.equals(updateInfo));
     }
 }

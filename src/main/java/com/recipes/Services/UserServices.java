@@ -43,4 +43,23 @@ public class UserServices implements IUserServices {
 
         return foundedUser;
     }
+
+    public User updateUserInfo(long id, User dataToUpdate) {
+        User foundedUser = null;
+        int index = userList.size();
+        if(id < 0) {
+            throw new IllegalArgumentException("Negative id is not valid");
+        }
+
+        while(foundedUser == null && --index >= 0) {
+            foundedUser = (userList.get(index).hasId(id)) ? userList.get(index) : null;
+        }
+
+        if(foundedUser == null) {
+            throw new ResourceNotFoundException(User.class, id);
+        }
+
+        foundedUser.updateInfo(dataToUpdate);
+        return foundedUser;
+    }
 }

@@ -38,6 +38,28 @@ public class UserServicesTest {
         User newUser = new User(1, "fullName", "email", "password");
         userServices.save(newUser);
         User foundedUser = userServices.findUserbyId(1);
-        Assert.assertTrue(foundedUser.equals(newUser));
+        Assert.assertTrue(foundedUser.toString().equals(newUser.toString()));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void updateUserThrowsIllegalArgumentException()  {
+        UserServices userServices = new UserServices();
+        userServices.updateUserInfo(-1, new User());
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void updateUserThrowsResourceNotFoundException()  {
+        UserServices userServices = new UserServices();
+        userServices.updateUserInfo(0, new User());
+    }
+
+    @Test
+    public void updateUser() {
+        UserServices userServices = new UserServices();
+        User newUser = new User(1, "fullName", "email", "password");
+        userServices.save(newUser);
+        User updateInfo = new User(1, "NewfullName", "Newemail", "password");
+        User foundedUser = userServices.updateUserInfo(1, updateInfo);
+        Assert.assertTrue(foundedUser.equals(updateInfo));
     }
 }
