@@ -63,9 +63,22 @@ public class User {
                 +"}";
     }
 
+    public boolean hasId(long otherId) {
+        return id == otherId;
+    }
+
     public boolean hasAllParameters() {
         return  !fullName.isEmpty() &&
                 !email.isEmpty() &&
                 !password.isEmpty();
     }
+
+    /*@Override
+    public boolean equals(Object obj) {
+        User other = (User)obj;
+        return  this.password.equals(other.password) &&
+                this.email.equals(other.email) &&
+                this.fullName.equals(other.email) &&
+                this.id == id;
+    }*/
 }
