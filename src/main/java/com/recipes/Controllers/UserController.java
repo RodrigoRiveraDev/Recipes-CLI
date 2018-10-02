@@ -40,6 +40,18 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/{id}", produces = "application/json", method = RequestMethod.PUT)
+    public HttpEntity<User> updateUser(@PathVariable long id, @RequestBody User dataToUpdate) {
+        try {
+            User foundedUser = userServices.updateUserInfo(id, dataToUpdate);
+            return new ResponseEntity<>(foundedUser, HttpStatus.CREATED);
+        } catch (IllegalArgumentException ilegalArugmentException) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (ResourceNotFoundException resourceNotFoundException) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @RequestMapping(method = RequestMethod.GET)
     public List<User> userList() {
