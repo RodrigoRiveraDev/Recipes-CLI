@@ -1,6 +1,7 @@
 package com.recipes.Services;
 
 import com.recipes.DTO.User;
+import com.recipes.Exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,5 +23,24 @@ public class UserServices implements IUserServices {
     @Override
     public List<User> getUserList() {
         return userList;
+    }
+
+    @Override
+    public User findUserbyId(long id) {
+        User foundedUser = null;
+        int index = userList.size();
+        if(id < 0) {
+            throw new IllegalArgumentException("Negative id is not valid");
+        }
+
+        while(foundedUser == null && --index >= 0) {
+            foundedUser = (userList.get(index).hasId(id)) ? userList.get(index) : null;
+        }
+
+        if(foundedUser == null) {
+            throw new ResourceNotFoundException(User.class, id);
+        }
+
+        return foundedUser;
     }
 }

@@ -9,4 +9,6 @@ public interface IUserServices {
     public void save(User user);
 
     public List<User> getUserList();
+
+    public User findUserbyId(long id);
 }
