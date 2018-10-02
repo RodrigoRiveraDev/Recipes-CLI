@@ -1,5 +1,8 @@
 package com.recipes.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private long id;
     private String fullName;
@@ -45,5 +48,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "{"+
+                "\"id\" : \"" + id + "\"" +
+                ",\"fullName\" : \"" + fullName + "\"" +
+                ",\"email\" : \"" + email + "\""
+                +"}";
     }
 }
