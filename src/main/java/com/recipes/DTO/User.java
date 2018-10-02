@@ -73,12 +73,24 @@ public class User {
                 !password.isEmpty();
     }
 
-    /*@Override
+    @Override
     public boolean equals(Object obj) {
         User other = (User)obj;
         return  this.password.equals(other.password) &&
                 this.email.equals(other.email) &&
                 this.fullName.equals(other.email) &&
                 this.id == id;
-    }*/
+    }
+
+    public void updateInfo(User info) {
+        if(!info.getEmail().isEmpty()) {
+            this.email = info.getEmail();
+        }
+        if(!info.getFullName().isEmpty()) {
+            this.fullName = info.getEmail();
+        }
+        if(!info.getPassword().isEmpty()) {
+            this.password = info.getPassword();
+        }
+    }
 }
