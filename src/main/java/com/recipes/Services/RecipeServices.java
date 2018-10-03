@@ -71,6 +71,25 @@ public class RecipeServices implements IRecipeServices {
     }
 
     @Override
+    public Recipe getRecipeById(int id) {
+        Recipe foundedRecipe = null;
+        int index = recipeList.size();
+        if(id < 0) {
+            throw new IllegalArgumentException("Negative id is not valid");
+        }
+
+        while(foundedRecipe == null && --index >= 0) {
+            foundedRecipe = (recipeList.get(index).hasId(id)) ? recipeList.get(index) : null;
+        }
+
+        if(foundedRecipe == null) {
+            throw new ResourceNotFoundException(Recipe.class, id);
+        }
+
+        return foundedRecipe;
+    }
+
+    @Override
     public List<Recipe> getRecipeList() {
         return recipeList;
     }

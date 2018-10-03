@@ -13,4 +13,6 @@ public interface IRecipeServices {
     Recipe updateRecipeInfo(long id, Recipe dataToUpdate, long userId);
 
     void deleteRecipe(long userId, long id);
+
+    Recipe getRecipeById(int id);
 }

@@ -150,4 +150,39 @@ public class RecipeControllerTest {
         HttpEntity response = recipeController.deleteRecipe(1, 5);
         Assert.assertTrue(response.getBody().equals("The Recipe with id " + 5 + " was not found"));
     }
+
+    @Test
+    public void findRecipeById() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        newRecipe.setUserId(2);
+        recipeController.registerRecipe(newRecipe);
+        HttpEntity response = recipeController.getRecipeById(1);
+        Recipe foundedRecipe = (Recipe) response.getBody();
+        Assert.assertTrue(foundedRecipe.equals(newRecipe));
+    }
+
+    @Test
+    public void findRecipeByIdThrowsIllegalArgumentException() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        recipeController.registerRecipe(newRecipe);
+        HttpEntity response = recipeController.getRecipeById(-1);
+        Assert.assertTrue(response.getBody().equals("Negative id is not valid"));
+    }
+
+    @Test
+    public void findRecipeByIdThrowsResourceNotFoundException()  {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        recipeController.registerRecipe(newRecipe);
+        HttpEntity response = recipeController.getRecipeById(9);
+        Assert.assertTrue(response.getBody().equals("The Recipe with id " + 9 + " was not found"));
+    }
 }
