@@ -23,7 +23,7 @@ public class RecipeController {
     public HttpEntity registerRecipe(@RequestBody Recipe newRecipe) {
         try {
             recipeServices.save(newRecipe);
-            return new ResponseEntity<>(newRecipe, HttpStatus.OK);
+            return new ResponseEntity<>(newRecipe, HttpStatus.CREATED);
         } catch (IllegalArgumentException illegalArgumentException) {
             return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -62,4 +62,17 @@ public class RecipeController {
     public List<Recipe> recipeList() {
         return recipeServices.getRecipeList();
     }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity getRecipeById(int id) {
+        try {
+            Recipe foundedRecipe = recipeServices.getRecipeById(id);
+            return new ResponseEntity<>(foundedRecipe, HttpStatus.OK);
+        } catch (IllegalArgumentException illegalArgumentException) {
+            return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ResourceNotFoundException resourceNotFoundException) {
+            return new ResponseEntity<>(resourceNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
