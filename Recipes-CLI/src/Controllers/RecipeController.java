@@ -71,4 +71,11 @@ public class RecipeController {
         }
         return recipeServices.finishUpdateRecipe(howElaborate, recipeId, currentId);
     }
+
+    public String deleteRecipe(int currentId) {
+        String id;
+        System.out.println("recipe id: ");
+        id = reader.nextLine();
+        return recipeServices.deleteRecipe(id, currentId);
+    }
 }

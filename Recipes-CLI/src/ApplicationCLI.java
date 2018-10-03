@@ -1,19 +1,18 @@
-import Controllers.RecipeController;
-import Controllers.UserCLIController;
+import Controllers.ApplicationController;
 import Handlers.HttpRequestHandler;
 
 public class ApplicationCLI {
     public static void main(String[] args) {
         HttpRequestHandler httpRequestHandler = new HttpRequestHandler();
 
-        UserCLIController userCLIController = new UserCLIController(httpRequestHandler);
-        RecipeController recipeController = new RecipeController(httpRequestHandler);
+        ApplicationController applicationController = new ApplicationController(httpRequestHandler);
 
-        int currentId = 1;
-        int option = userCLIController.getInitInstructions();
-        while(option != 3) {
-            userCLIController.selectOption(option);
-            option = userCLIController.getInitInstructions();
+        applicationController.enterUserId();
+
+        int option = applicationController.getInitInstructions();
+        while(option != 9) {
+            System.out.println(applicationController.selectOption(option));
+            option = applicationController.getInitInstructions();
         }
     }
 }

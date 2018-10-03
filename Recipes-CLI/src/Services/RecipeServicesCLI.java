@@ -66,4 +66,14 @@ public class RecipeServicesCLI {
             return "There was an error, try again";
         }
     }
+
+    public String deleteRecipe(String id, int userId) {
+        try {
+            Map<String, String> headers = new HashMap<>();
+            headers.put("userId", Integer.toString(userId));
+            return this.httpRequestHandler.sendDelete("/recipes/"+id, null, headers);
+        } catch (Exception ex) {
+            return "There was an error, try again";
+        }
+    }
 }

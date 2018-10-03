@@ -8,7 +8,7 @@ public class FieldValidator {
         } catch (Exception ex){
             option = 0;
         }
-        if(option <= 0 || option > 3) {
+        if(option <= 0 || option > 9) {
             System.out.println("Invalid value, try again");
         }
         return option;
