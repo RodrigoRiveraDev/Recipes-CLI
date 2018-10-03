@@ -1,7 +1,5 @@
 import Controllers.RecipeController;
 import Controllers.UserCLIController;
-import DTO.IJSON;
-import DTO.UserDTO;
 import Handlers.HttpRequestHandler;
 
 public class ApplicationCLI {
@@ -11,7 +9,7 @@ public class ApplicationCLI {
         UserCLIController userCLIController = new UserCLIController(httpRequestHandler);
         RecipeController recipeController = new RecipeController(httpRequestHandler);
 
-        int currentId = 0;
+        int currentId = 1;
         int option = userCLIController.getInitInstructions();
         while(option != 3) {
             userCLIController.selectOption(option);

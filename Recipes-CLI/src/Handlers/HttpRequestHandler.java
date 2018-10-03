@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class HttpRequestHandler {
 
-    private final String BASE_URL = "http://localhost:8090/";
+    private final String BASE_URL = "http://localhost:8090";
 
     public String sendGet(String endpoint, Map<String, String> parameters, Map<String, String> headers) throws Exception {
         URL url = new URL(BASE_URL + endpoint);
@@ -106,8 +106,8 @@ public class HttpRequestHandler {
         conn.setRequestProperty("Content-Type", "application/json");
 
         String input = body.toJSON();
-
-        addHeaders(conn, headers);
+        if(headers != null)
+            addHeaders(conn, headers);
 
         OutputStream os = conn.getOutputStream();
         os.write(input.getBytes());
