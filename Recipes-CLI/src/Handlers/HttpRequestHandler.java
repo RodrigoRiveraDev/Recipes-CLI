@@ -64,6 +64,8 @@ public class HttpRequestHandler {
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");
 
+        System.out.println(body.toJSON());
+
         String input = body.toJSON();
 
         OutputStream os = conn.getOutputStream();
