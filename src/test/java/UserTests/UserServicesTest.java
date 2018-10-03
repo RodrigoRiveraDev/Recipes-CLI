@@ -77,6 +77,6 @@ public class UserServicesTest {
         userServices.save(newUser);
         User updateInfo = new User(1, "NewfullName", "Newemail", "password");
         User foundedUser = userServices.updateUserInfo(1, updateInfo,1);
-        Assert.assertTrue(foundedUser.equals(updateInfo));
+        Assert.assertTrue(foundedUser.toString().equals(updateInfo.toString()));
     }
 }
