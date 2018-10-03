@@ -4,6 +4,7 @@ import com.recipes.Controllers.RecipeController;
 import com.recipes.DTO.Ingredient;
 import com.recipes.DTO.Recipe;
 import com.recipes.Exceptions.ResourceNotFoundException;
+import com.recipes.Exceptions.UnauthorizedException;
 import com.recipes.Services.RecipeServices;
 import org.junit.Assert;
 import org.junit.Test;
@@ -86,5 +87,53 @@ public class RecipeControllerTest {
         updateInfo.setId(1);
         updateInfo.setIngredients(ingredients);
         Assert.assertTrue(updatedRecipe.equals(updateInfo));
+    }
+
+    @Test
+    public void deleteRecipe() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        newRecipe.setUserId(2);
+        recipeController.registerRecipe(newRecipe);
+        int savedRecipes = recipeController.recipeList().size();
+        recipeController.deleteRecipe(2, 1);
+        int postDeletionSavedRecipes = recipeController.recipeList().size();
+        Assert.assertTrue(savedRecipes == postDeletionSavedRecipes+1);
+    }
+
+    @Test
+    public void deleteRecipeThrowsUnauthorizedException() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        newRecipe.setUserId(2);
+        recipeController.registerRecipe(newRecipe);
+        HttpEntity response = recipeController.deleteRecipe(1, 1);
+        Assert.assertTrue(response.getBody().equals("You don't have the permission to execute this action"));
+    }
+
+    @Test
+    public void deleteRecipeThrowsIllegalArgumentException() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        recipeController.registerRecipe(newRecipe);
+        HttpEntity response = recipeController.deleteRecipe(1, -1);
+        Assert.assertTrue(response.getBody().equals("Negative id is not valid"));
+    }
+
+    @Test
+    public void deleteRecipeThrowsResourceNotFoundException()  {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        recipeController.registerRecipe(newRecipe);
+        HttpEntity response = recipeController.deleteRecipe(1, 5);
+        Assert.assertTrue(response.getBody().equals("The Recipe with id " + 5 + " was not found"));
     }
 }
