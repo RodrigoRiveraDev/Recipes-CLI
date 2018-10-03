@@ -34,4 +34,12 @@ public class UserServicesCLI {
         }
     }
 
+    public String viewAllUsers() {
+        try {
+            return this.httpRequestHandler.sendGet("/users", null, null);
+        } catch (Exception ex) {
+            return "There was an error, try again";
+        }
+    }
+
 }
