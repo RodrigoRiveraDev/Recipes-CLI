@@ -21,12 +21,13 @@ public class UserController {
     private IUserServices userServices;
 
     @RequestMapping(method = RequestMethod.POST)
-    public HttpEntity<String> registerUser(@RequestBody User newUser) throws IllegalArgumentException {
-        if(!newUser.hasAllParameters()) {
-            throw new IllegalArgumentException("All the parameters must not be nulls or empties");
+    public HttpEntity registerUser(@RequestBody User newUser) {
+        try {
+            userServices.save(newUser);
+            return new ResponseEntity<>(newUser.toString(), HttpStatus.CREATED);
+        } catch (IllegalArgumentException illegalArgumentException) {
+            return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        userServices.save(newUser);
-        return new HttpEntity<String>(newUser.toString());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
