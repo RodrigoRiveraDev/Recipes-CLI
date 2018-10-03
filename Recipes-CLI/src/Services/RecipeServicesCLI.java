@@ -40,6 +40,17 @@ public class RecipeServicesCLI {
         }
     }
 
+    public String finishUpdateRecipe(String howElaborate, String recipeId, int userId) {
+        recipeDTO.setHowElaborate(howElaborate);
+        try {
+            Map<String, String> headers = new HashMap<>();
+            headers.put("userId", Integer.toString(userId));
+            return httpRequestHandler.sendPut("/recipes/"+recipeId, recipeDTO, headers);
+        } catch (Exception ex) {
+            return "There was an error, try again";
+        }
+    }
+
     public String getAllRecipes() {
         try {
             return this.httpRequestHandler.sendGet("/recipes", null, null);

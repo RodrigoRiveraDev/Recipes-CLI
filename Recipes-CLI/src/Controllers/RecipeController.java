@@ -53,4 +53,22 @@ public class RecipeController {
         id = reader.nextLine();
         return recipeServices.getRecipeById(id);
     }
+
+    public String modifyRecipe(int currentId) {
+        recipeServices.startRegisteringRecipe();
+        String howElaborate, recipeId;
+        System.out.println("how Elaborate: ");
+        howElaborate = reader.nextLine();
+        System.out.println("recipe Id: ");
+        recipeId = reader.nextLine();
+        System.out.println("Add your ingredients:");
+        System.out.println("Want to modify ingredient? [Y/N]");
+        String keedAdding = reader.nextLine();
+        while(keedAdding.equals("Y")) {
+            addIngredient();
+            System.out.println("Want to add another ingredient? [Y/N]");
+            keedAdding = reader.nextLine();
+        }
+        return recipeServices.finishUpdateRecipe(howElaborate, recipeId, currentId);
+    }
 }
