@@ -47,4 +47,12 @@ public class RecipeServicesCLI {
             return "There was an error, try again";
         }
     }
+
+    public String getRecipeById(String id) {
+        try {
+            return this.httpRequestHandler.sendGet("/recipes/"+id, null, null);
+        } catch (Exception ex) {
+            return "There was an error, try again";
+        }
+    }
 }

@@ -17,6 +17,5 @@ public class ApplicationCLI {
             userCLIController.selectOption(option);
             option = userCLIController.getInitInstructions();
         }
-
     }
 }
