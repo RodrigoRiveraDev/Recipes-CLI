@@ -7,6 +7,7 @@ import com.recipes.Services.IRecipeServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,9 +18,14 @@ public class RecipeController {
     private IRecipeServices recipeServices;
 
     @RequestMapping(method = RequestMethod.POST)
-    public HttpEntity<String> registerUser(@RequestBody Recipe newRecipe) {
-        recipeServices.save(newRecipe);
-        return new HttpEntity<String>(newRecipe.toString(), HttpStatus.OK);
+    public HttpEntity registerRecipe(@RequestBody Recipe newRecipe) {
+        try {
+            recipeServices.save(newRecipe);
+            return new ResponseEntity<>(newRecipe, HttpStatus.OK);
+        } catch (IllegalArgumentException illegalArgumentException) {
+            return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @RequestMapping(method = RequestMethod.GET)
