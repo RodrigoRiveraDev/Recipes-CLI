@@ -1,5 +1,6 @@
 package com.recipes.DTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe {
@@ -8,7 +9,15 @@ public class Recipe {
     private List<Ingredient> ingredients;
     private String howElaborate;
 
-    public Recipe() {}
+    public Recipe() {
+        ingredients = null;
+        howElaborate = "";
+    }
+
+    public Recipe(List<Ingredient> ingredients, String howElaborate) {
+        this.ingredients = ingredients;
+        this.howElaborate = howElaborate;
+    }
 
     public long getId() {
         return id;
