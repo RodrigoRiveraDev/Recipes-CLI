@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -43,16 +44,17 @@ public class UserControllerTest {
     @Test
     public void addNewUser() {
         User newUser = new User(1, "fullName", "email", "password");
+        int originalSavedUsers = userController.userList().size();
         userController.registerUser(newUser);
-        int savedUsers;
-        savedUsers = userController.userList().size();
-        Assert.assertTrue(savedUsers == 1);
+        int newSavedUsers = userController.userList().size();
+        Assert.assertTrue(newSavedUsers == originalSavedUsers + 1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void addNewUserThrowsExeption()  {
+    @Test
+    public void addNewUserThrowsException()  {
         User newUser = new User();
-        userController.registerUser(newUser);
+        HttpEntity response = userController.registerUser(newUser);
+        Assert.assertTrue(response.getBody().equals("All the parameters must not be nulls or empties"));
     }
 
     @Test
@@ -66,12 +68,14 @@ public class UserControllerTest {
 
     @Test
     public void findUserbyIdThrowsIllegalArgumentException()  {
-        userController.getUserById(-1);
+        HttpEntity response = userController.getUserById(-1);
+        Assert.assertTrue(response.getBody().equals("Negative id is not valid"));
     }
 
     @Test
     public void findUserbyIdThrowsResourceNotFoundException()  {
-        userController.getUserById(0);
+        HttpEntity response = userController.getUserById(0);
+        Assert.assertTrue(response.getBody().equals("The User with id " + 0 + " was not found"));
     }
 
     @Test
@@ -86,12 +90,14 @@ public class UserControllerTest {
 
     @Test
     public void updateUserThrowsIllegalArgumentException()  {
-        userController.updateUser(1, -1, new User());
+        HttpEntity response = userController.updateUser(1, -1, new User());
+        Assert.assertTrue(response.getBody().equals("Negative id is not valid"));
     }
 
     @Test
     public void updateUserThrowsResourceNotFoundException()  {
-        userController.updateUser(1, 0, new User());
+        HttpEntity response = userController.updateUser(1, 0, new User());
+        Assert.assertTrue(response.getBody().equals("The User with id " + 0 + " was not found"));
     }
 
     @Test
