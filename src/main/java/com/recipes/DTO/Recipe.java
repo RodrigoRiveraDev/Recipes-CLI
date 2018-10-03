@@ -8,6 +8,7 @@ public class Recipe {
     private long id;
     private List<Ingredient> ingredients;
     private String howElaborate;
+    private long userId;
 
     public Recipe() {
         ingredients = null;
@@ -43,6 +44,14 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
     public boolean hasAllParameters() {
         return  !howElaborate.isEmpty() &&
                 ingredients.size() > 0;
@@ -59,6 +68,10 @@ public class Recipe {
         if(dataToUpdate.getIngredients().size() > 0) {
             this.ingredients = dataToUpdate.getIngredients();
         }
+    }
+
+    public boolean isOwner(long id) {
+        return this.userId == id;
     }
 
     @Override
