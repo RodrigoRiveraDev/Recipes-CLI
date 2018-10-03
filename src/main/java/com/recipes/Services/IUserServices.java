@@ -12,5 +12,5 @@ public interface IUserServices {
 
     public User findUserbyId(long id);
 
-    public User updateUserInfo(long id, User dataToUpdate);
+    public User updateUserInfo(long id, User dataToUpdate, int userId);
 }

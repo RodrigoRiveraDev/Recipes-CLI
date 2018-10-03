@@ -2,6 +2,7 @@ package com.recipes.Services;
 
 import com.recipes.DTO.User;
 import com.recipes.Exceptions.ResourceNotFoundException;
+import com.recipes.Exceptions.UnauthorizedException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -44,7 +45,8 @@ public class UserServices implements IUserServices {
         return foundedUser;
     }
 
-    public User updateUserInfo(long id, User dataToUpdate) {
+    @Override
+    public User updateUserInfo(long id, User dataToUpdate, int userId) {
         User foundedUser = null;
         int index = userList.size();
         if(id < 0) {
@@ -57,6 +59,10 @@ public class UserServices implements IUserServices {
 
         if(foundedUser == null) {
             throw new ResourceNotFoundException(User.class, id);
+        }
+
+        if(!foundedUser.hasId(userId)) {
+            throw new UnauthorizedException();
         }
 
         foundedUser.updateInfo(dataToUpdate);
