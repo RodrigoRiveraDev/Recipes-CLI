@@ -47,4 +47,25 @@ public class Recipe {
         return  !howElaborate.isEmpty() &&
                 ingredients.size() > 0;
     }
+
+    public boolean hasId(long id) {
+        return this.id == id;
+    }
+
+    public void updateInfo(Recipe dataToUpdate) {
+        if(!dataToUpdate.getHowElaborate().isEmpty()) {
+            this.howElaborate = dataToUpdate.getHowElaborate();
+        }
+        if(dataToUpdate.getIngredients().size() > 0) {
+            this.ingredients = dataToUpdate.getIngredients();
+        }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Recipe other = (Recipe) obj;
+        return  this.howElaborate.equals(other.howElaborate) &&
+                this.ingredients.equals(other.ingredients) &&
+                this.id == other.getId();
+    }
 }
