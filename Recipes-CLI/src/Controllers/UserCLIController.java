@@ -43,6 +43,10 @@ public class UserCLIController {
         return userServices.updateUser(currentId, fullName, email, password);
     }
 
+    public String viewAllUser() {
+        return userServices.viewAllUsers();
+    }
+
     public void selectOption(int value) {
         switch (value) {
             case 1 : {
