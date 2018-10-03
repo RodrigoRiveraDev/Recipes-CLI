@@ -11,4 +11,6 @@ public interface IRecipeServices {
     List<Recipe> getRecipeList();
 
     Recipe updateRecipeInfo(long id, Recipe dataToUpdate);
+
+    void deleteRecipe(long userId, long id);
 }

@@ -2,6 +2,7 @@ package com.recipes.Services;
 
 import com.recipes.DTO.Recipe;
 import com.recipes.Exceptions.ResourceNotFoundException;
+import com.recipes.Exceptions.UnauthorizedException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,6 +39,30 @@ public class RecipeServices implements IRecipeServices {
 
         foundedRecipe.updateInfo(dataToUpdate);
         return foundedRecipe;
+    }
+
+    @Override
+    public void deleteRecipe(long userId, long recipeId) {
+        long foundedRecipeIndex = -1;
+        int index = recipeList.size();
+        if(recipeId < 0) {
+            throw new IllegalArgumentException("Negative id is not valid");
+        }
+
+        while(foundedRecipeIndex == -1 && --index >= 0) {
+            foundedRecipeIndex = (recipeList.get(index).hasId(recipeId)) ? index : -1;
+        }
+
+        if(foundedRecipeIndex == -1) {
+            throw new ResourceNotFoundException(Recipe.class, recipeId);
+        }
+        Recipe foundedRecipe = recipeList.get((int)foundedRecipeIndex);
+
+        if(!foundedRecipe.isOwner(userId)) {
+            throw new UnauthorizedException();
+        }
+
+        recipeList.remove(foundedRecipe);
     }
 
     @Override
