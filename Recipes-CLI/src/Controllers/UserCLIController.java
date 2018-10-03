@@ -32,6 +32,17 @@ public class UserCLIController {
         return userServices.registerUser(fullName, email, password);
     }
 
+    public String update(int currentId) {
+        String fullName, email, password;
+        System.out.println("full name: ");
+        fullName = reader.nextLine();
+        System.out.println("email: ");
+        email = reader.nextLine();
+        System.out.println("password: ");
+        password = reader.nextLine();
+        return userServices.updateUser(currentId, fullName, email, password);
+    }
+
     public void selectOption(int value) {
         switch (value) {
             case 1 : {
