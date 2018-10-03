@@ -36,13 +36,26 @@ public class RecipeServicesTest {
     @Test(expected = IllegalArgumentException.class)
     public void updateRecipeThrowsIllegalArgumentException()  {
         RecipeServices recipeServices = new RecipeServices();
-        recipeServices.updateRecipeInfo(-1, new Recipe());
+        recipeServices.updateRecipeInfo(-1, new Recipe(), 4);
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void updateRecipeThrowsResourceNotFoundException()  {
         RecipeServices recipeServices = new RecipeServices();
-        recipeServices.updateRecipeInfo(0, new Recipe());
+        recipeServices.updateRecipeInfo(0, new Recipe(), 4);
+    }
+
+    @Test(expected = UnauthorizedException.class)
+    public void updateRecipeThrowsUnauthorizedException() {
+        RecipeServices recipeServices = new RecipeServices();
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        newRecipe.setUserId(2);
+        recipeServices.save(newRecipe);
+        Recipe updateInfo = new Recipe(new ArrayList<Ingredient>(), "new step");
+        recipeServices.updateRecipeInfo(1, updateInfo, 5);
     }
 
     @Test
@@ -52,9 +65,10 @@ public class RecipeServicesTest {
         ingredients.add(new Ingredient());
         Recipe newRecipe = new Recipe(ingredients, "steps");
         newRecipe.setId(1);
+        newRecipe.setUserId(2);
         recipeServices.save(newRecipe);
         Recipe updateInfo = new Recipe(new ArrayList<Ingredient>(), "new step");
-        Recipe updatedRecipe = recipeServices.updateRecipeInfo(1, updateInfo);
+        Recipe updatedRecipe = recipeServices.updateRecipeInfo(1, updateInfo, 2);
         updateInfo.setId(1);
         updateInfo.setIngredients(ingredients);
         Assert.assertTrue(updatedRecipe.equals(updateInfo));

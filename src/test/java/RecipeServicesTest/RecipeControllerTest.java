@@ -62,7 +62,7 @@ public class RecipeControllerTest {
 
     @Test
     public void updateRecipeThrowsIllegalArgumentException()  {
-        HttpEntity response = recipeController.updateRecipe(-1, new Recipe());
+        HttpEntity response = recipeController.updateRecipe(4, -1, new Recipe());
         Assert.assertTrue(response.getBody().equals("Negative id is not valid"));
     }
 
@@ -71,8 +71,21 @@ public class RecipeControllerTest {
         List<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(new Ingredient());
         Recipe newRecipe = new Recipe(ingredients, "steps");
-        HttpEntity response = recipeController.updateRecipe(9, newRecipe);
+        HttpEntity response = recipeController.updateRecipe(4,9, newRecipe);
         Assert.assertTrue(response.getBody().equals("The Recipe with id " + 9 + " was not found"));
+    }
+
+    @Test
+    public void updateRecipeThrowsUnauthorizedException() {
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        newRecipe.setUserId(2);
+        recipeController.registerRecipe(newRecipe);
+        Recipe updateInfo = new Recipe(new ArrayList<Ingredient>(), "new step");
+        HttpEntity response = recipeController.updateRecipe(4, 1, updateInfo);
+        Assert.assertTrue(response.getBody().equals("You don't have the permission to execute this action"));
     }
 
     @Test
@@ -81,9 +94,10 @@ public class RecipeControllerTest {
         ingredients.add(new Ingredient());
         Recipe newRecipe = new Recipe(ingredients, "steps");
         newRecipe.setId(1);
+        newRecipe.setUserId(4);
         recipeController.registerRecipe(newRecipe);
         Recipe updateInfo = new Recipe(new ArrayList<Ingredient>(), "new step");
-        Recipe updatedRecipe = (Recipe) recipeController.updateRecipe(1, updateInfo).getBody();
+        Recipe updatedRecipe = (Recipe) recipeController.updateRecipe(4,1, updateInfo).getBody();
         updateInfo.setId(1);
         updateInfo.setIngredients(ingredients);
         Assert.assertTrue(updatedRecipe.equals(updateInfo));
