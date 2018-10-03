@@ -39,24 +39,6 @@ public class HttpRequestHandler {
         return res.toString();
     }
 
-    private String convert(Map<String, String> map) {
-        StringBuilder res = new StringBuilder("{");
-        Set<String> keys = map.keySet();
-        boolean first = true;
-        for (String key: keys) {
-            if(first) {
-                first = false;
-            } else {
-                res.append(",");
-            }
-
-            res.append('"' + key + "\" : " + "\"" + map.get(key) + "\"");
-        }
-        res.append("}");
-        String res1 = res.toString();
-        return res1;
-    }
-
     public String sendPost(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
         URL url = new URL(BASE_URL + endpoint);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -64,7 +46,8 @@ public class HttpRequestHandler {
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");
 
-        System.out.println(body.toJSON());
+        if(headers != null)
+            addHeaders(conn, headers);
 
         String input = body.toJSON();
 
@@ -131,6 +114,36 @@ public class HttpRequestHandler {
         conn.disconnect();
 
         return res.toString();
+    }
+
+    public String sendDelete(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
+        URL url = new URL(BASE_URL + endpoint);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setDoOutput(true);
+        conn.setRequestMethod("DELETE");
+        conn.setRequestProperty("Content-Type", "application/json");
+
+        if(headers != null)
+            addHeaders(conn, headers);
+
+        if(body != null) {
+            String input = body.toJSON();
+            OutputStream os = conn.getOutputStream();
+            os.write(input.getBytes());
+            os.flush();
+        }
+
+        if (conn.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT) {
+            System.out.println(conn.getResponseMessage());
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + conn.getResponseCode());
+        }
+
+        String output = "Deleted Recipe";
+
+        conn.disconnect();
+
+        return output;
     }
 
 }
