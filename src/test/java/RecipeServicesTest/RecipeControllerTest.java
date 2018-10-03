@@ -1,4 +1,4 @@
-package UserTests;
+package RecipeServicesTest;
 
 import com.recipes.Controllers.RecipeController;
 import com.recipes.DTO.Ingredient;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -46,9 +47,10 @@ public class RecipeControllerTest {
         ingredients.add(new Ingredient());
         Recipe newRecipe = new Recipe(ingredients, "steps");
         int savedRecipes;
-        recipeController.registerRecipe(newRecipe);
+        HttpEntity re = recipeController.registerRecipe(newRecipe);
+        Recipe postReturn = (Recipe)re.getBody();
         savedRecipes = recipeController.recipeList().size();
-        Assert.assertTrue(savedRecipes == 1);
+        Assert.assertTrue(postReturn.equals(newRecipe));
     }
 
     @Test
@@ -60,7 +62,7 @@ public class RecipeControllerTest {
     @Test
     public void updateRecipeThrowsIllegalArgumentException()  {
         HttpEntity response = recipeController.updateRecipe(-1, new Recipe());
-        Assert.assertTrue(response.getBody().equals("All the parameters must not be nulls or empties"));
+        Assert.assertTrue(response.getBody().equals("Negative id is not valid"));
     }
 
     @Test
@@ -68,9 +70,8 @@ public class RecipeControllerTest {
         List<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(new Ingredient());
         Recipe newRecipe = new Recipe(ingredients, "steps");
-        newRecipe.setId(1);
-        HttpEntity response = recipeController.updateRecipe(1, newRecipe);
-//        Assert.assertTrue(response.getBody().equals("The Recipe with id " + 1 + " was not found"));
+        HttpEntity response = recipeController.updateRecipe(9, newRecipe);
+        Assert.assertTrue(response.getBody().equals("The Recipe with id " + 9 + " was not found"));
     }
 
     @Test
