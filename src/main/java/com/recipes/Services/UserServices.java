@@ -18,6 +18,9 @@ public class UserServices implements IUserServices {
 
     @Override
     public void save(User user) {
+        if(!user.hasAllParameters()) {
+            throw new IllegalArgumentException("All the parameters must not be nulls or empties");
+        }
         userList.add(user);
     }
 

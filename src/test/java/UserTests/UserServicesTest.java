@@ -14,11 +14,17 @@ public class UserServicesTest {
     @Test
     public void addNewUser() {
         UserServices userServices = new UserServices();
-        User newUser = new User();
-        int savedUsers;
+        User newUser = new User(1, "fullName", "email", "password");
         userServices.save(newUser);
-        savedUsers = userServices.getUserList().size();
+        int savedUsers = userServices.getUserList().size();
         Assert.assertTrue(savedUsers == 1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void addNewUserThrowsException()  {
+        UserServices userServices = new UserServices();
+        User newUser = new User();
+        userServices.save(newUser);
     }
 
     @Test(expected = IllegalArgumentException.class)
