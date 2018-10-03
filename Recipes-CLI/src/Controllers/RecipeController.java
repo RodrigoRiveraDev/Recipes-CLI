@@ -42,4 +42,8 @@ public class RecipeController {
         }
         return recipeServices.finishRegisterRecipe(howElaborate, currentId);
     }
+
+    public String getAllRecipes() {
+        return recipeServices.getAllRecipes();
+    }
 }
