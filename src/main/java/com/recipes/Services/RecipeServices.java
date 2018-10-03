@@ -22,7 +22,7 @@ public class RecipeServices implements IRecipeServices {
     }
 
     @Override
-    public Recipe updateRecipeInfo(long id, Recipe dataToUpdate) {
+    public Recipe updateRecipeInfo(long id, Recipe dataToUpdate, long userId) {
         Recipe foundedRecipe = null;
         int index = recipeList.size();
         if(id < 0) {
@@ -35,6 +35,10 @@ public class RecipeServices implements IRecipeServices {
 
         if(foundedRecipe == null) {
             throw new ResourceNotFoundException(Recipe.class, id);
+        }
+
+        if(!foundedRecipe.isOwner(userId)) {
+            throw new UnauthorizedException();
         }
 
         foundedRecipe.updateInfo(dataToUpdate);
@@ -56,6 +60,7 @@ public class RecipeServices implements IRecipeServices {
         if(foundedRecipeIndex == -1) {
             throw new ResourceNotFoundException(Recipe.class, recipeId);
         }
+
         Recipe foundedRecipe = recipeList.get((int)foundedRecipeIndex);
 
         if(!foundedRecipe.isOwner(userId)) {
