@@ -2,6 +2,8 @@ package UserTests;
 
 import com.recipes.Controllers.UserController;
 import com.recipes.DTO.User;
+import com.recipes.Exceptions.ResourceNotFoundException;
+import com.recipes.Exceptions.UnauthorizedException;
 import com.recipes.Services.UserServices;
 import com.sun.deploy.net.HttpResponse;
 import org.junit.Assert;
@@ -63,12 +65,41 @@ public class UserControllerTest {
     }
 
     @Test
+    public void findUserbyIdThrowsIllegalArgumentException()  {
+        userController.getUserById(-1);
+    }
+
+    @Test
+    public void findUserbyIdThrowsResourceNotFoundException()  {
+        userController.getUserById(0);
+    }
+
+    @Test
     public void updateUser()  {
         User newUser = new User(1, "fullName", "email", "password");
         userController.registerUser(newUser);
         User updateInfo = new User(1, "NewfullName", "Newemail", "password");
-        HttpEntity<User> response = userController.updateUser(1, updateInfo);
+        HttpEntity<User> response = userController.updateUser(1,1, updateInfo);
         User updatedUser = response.getBody();
         Assert.assertTrue(updatedUser.equals(updateInfo));
+    }
+
+    @Test
+    public void updateUserThrowsIllegalArgumentException()  {
+        userController.updateUser(1, -1, new User());
+    }
+
+    @Test
+    public void updateUserThrowsResourceNotFoundException()  {
+        userController.updateUser(1, 0, new User());
+    }
+
+    @Test
+    public void updateUserThrowsUnauthorizedException() {
+        User newUser = new User(1, "fullName", "email", "password");
+        userController.registerUser(newUser);
+        User updateInfo = new User(1, "NewfullName", "Newemail", "password");
+        HttpEntity response = userController.updateUser(3,1, updateInfo);
+        Assert.assertTrue(response.getBody().equals("You don't have the permission to execute this action"));
     }
 }

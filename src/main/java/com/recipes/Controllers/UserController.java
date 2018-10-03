@@ -3,6 +3,7 @@ package com.recipes.Controllers;
 import java.util.List;
 import com.recipes.DTO.User;
 import com.recipes.Exceptions.ResourceNotFoundException;
+import com.recipes.Exceptions.UnauthorizedException;
 import com.recipes.Services.IUserServices;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -19,7 +20,7 @@ public class UserController {
     @Autowired
     private IUserServices userServices;
 
-    @RequestMapping(produces = "application/json", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public HttpEntity<String> registerUser(@RequestBody User newUser) throws IllegalArgumentException {
         if(!newUser.hasAllParameters()) {
             throw new IllegalArgumentException("All the parameters must not be nulls or empties");
@@ -28,27 +29,29 @@ public class UserController {
         return new HttpEntity<String>(newUser.toString());
     }
 
-    @RequestMapping(value = "/{id}", produces = "application/json", method = RequestMethod.GET)
-    public HttpEntity<User> getUserById(@PathVariable long id) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public HttpEntity getUserById(@PathVariable long id) {
         try {
             User foundedUser = userServices.findUserbyId(id);
             return new ResponseEntity<>(foundedUser, HttpStatus.OK);
         } catch (IllegalArgumentException ilegalArugmentException) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ilegalArugmentException.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (ResourceNotFoundException resourceNotFoundException) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(resourceNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
-    @RequestMapping(value = "/{id}", produces = "application/json", method = RequestMethod.PUT)
-    public HttpEntity<User> updateUser(@PathVariable long id, @RequestBody User dataToUpdate) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public HttpEntity updateUser(@RequestHeader(value="userId") int userId, @PathVariable long id, @RequestBody User dataToUpdate) {
         try {
-            User foundedUser = userServices.updateUserInfo(id, dataToUpdate);
+            User foundedUser = userServices.updateUserInfo(id, dataToUpdate, userId);
             return new ResponseEntity<>(foundedUser, HttpStatus.CREATED);
         } catch (IllegalArgumentException ilegalArugmentException) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(ilegalArugmentException.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (ResourceNotFoundException resourceNotFoundException) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(resourceNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (UnauthorizedException unauthorizedException) {
+            return new ResponseEntity<>(unauthorizedException.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
 
