@@ -121,4 +121,39 @@ public class RecipeServicesTest {
         recipeServices.save(newRecipe);
         recipeServices.deleteRecipe(1, 5);
     }
+
+    @Test
+    public void findRecipeById() {
+        RecipeServices recipeServices = new RecipeServices();
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        newRecipe.setUserId(2);
+        recipeServices.save(newRecipe);
+        Recipe foundedRecipe = recipeServices.getRecipeById(1);
+        Assert.assertTrue(foundedRecipe.equals(newRecipe));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void findRecipeByIdThrowsIllegalArgumentException() {
+        RecipeServices recipeServices = new RecipeServices();
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        recipeServices.save(newRecipe);
+        recipeServices.getRecipeById(-1);
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void findRecipeByIdThrowsResourceNotFoundException()  {
+        RecipeServices recipeServices = new RecipeServices();
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        recipeServices.save(newRecipe);
+        recipeServices.getRecipeById(2);
+    }
 }
