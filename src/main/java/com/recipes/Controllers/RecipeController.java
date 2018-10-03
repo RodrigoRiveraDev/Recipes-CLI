@@ -64,7 +64,7 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity getRecipeById(int id) {
+    public ResponseEntity getRecipeById(@PathVariable int id) {
         try {
             Recipe foundedRecipe = recipeServices.getRecipeById(id);
             return new ResponseEntity<>(foundedRecipe, HttpStatus.OK);

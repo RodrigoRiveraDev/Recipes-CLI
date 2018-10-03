@@ -46,4 +46,11 @@ public class RecipeController {
     public String getAllRecipes() {
         return recipeServices.getAllRecipes();
     }
+
+    public String getRecipeById() {
+        String id;
+        System.out.println("recipe id: ");
+        id = reader.nextLine();
+        return recipeServices.getRecipeById(id);
+    }
 }
