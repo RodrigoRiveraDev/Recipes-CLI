@@ -5,7 +5,6 @@ import com.recipes.DTO.Recipe;
 
 import com.recipes.Exceptions.ResourceNotFoundException;
 import com.recipes.Services.RecipeServices;
-import com.recipes.Services.UserServices;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,5 +30,32 @@ public class RecipeServicesTest {
     public void addNewRecipeThrowsIllegalArgumentException()  {
         RecipeServices recipeServices = new RecipeServices();
         recipeServices.save(new Recipe());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void updateRecipeThrowsIllegalArgumentException()  {
+        RecipeServices recipeServices = new RecipeServices();
+        recipeServices.updateRecipeInfo(-1, new Recipe());
+    }
+
+    @Test(expected = ResourceNotFoundException.class)
+    public void updateRecipeThrowsResourceNotFoundException()  {
+        RecipeServices recipeServices = new RecipeServices();
+        recipeServices.updateRecipeInfo(0, new Recipe());
+    }
+
+    @Test
+    public void updateRecipe() {
+        RecipeServices recipeServices = new RecipeServices();
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient());
+        Recipe newRecipe = new Recipe(ingredients, "steps");
+        newRecipe.setId(1);
+        recipeServices.save(newRecipe);
+        Recipe updateInfo = new Recipe(new ArrayList<Ingredient>(), "new step");
+        Recipe updatedRecipe = recipeServices.updateRecipeInfo(1, updateInfo);
+        updateInfo.setId(1);
+        updateInfo.setIngredients(ingredients);
+        Assert.assertTrue(updatedRecipe.equals(updateInfo));
     }
 }
