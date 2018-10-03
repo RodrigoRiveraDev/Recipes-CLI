@@ -31,14 +31,16 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public HttpEntity updateRecipe(@PathVariable long id, @RequestBody Recipe dataToUpdate) {
+    public HttpEntity updateRecipe(@RequestHeader(value="userId") long userId, @PathVariable long id, @RequestBody Recipe dataToUpdate) {
         try {
-            Recipe updatedRecipe = recipeServices.updateRecipeInfo(id, dataToUpdate);
+            Recipe updatedRecipe = recipeServices.updateRecipeInfo(id, dataToUpdate, userId);
             return new ResponseEntity<>(updatedRecipe, HttpStatus.CREATED);
         } catch (IllegalArgumentException illegalArgumentException) {
             return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (ResourceNotFoundException resourceNotFoundException) {
             return new ResponseEntity<>(resourceNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (UnauthorizedException unauthorizedException) {
+            return new ResponseEntity<>(unauthorizedException.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
 
