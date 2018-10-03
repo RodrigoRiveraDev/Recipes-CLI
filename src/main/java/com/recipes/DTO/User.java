@@ -87,7 +87,7 @@ public class User {
             this.email = info.getEmail();
         }
         if(!info.getFullName().isEmpty()) {
-            this.fullName = info.getEmail();
+            this.fullName = info.getFullName();
         }
         if(!info.getPassword().isEmpty()) {
             this.password = info.getPassword();
