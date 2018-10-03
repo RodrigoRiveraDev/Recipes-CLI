@@ -3,6 +3,7 @@ package com.recipes.Controllers;
 import java.util.List;
 import com.recipes.DTO.Recipe;
 import com.recipes.Exceptions.ResourceNotFoundException;
+import com.recipes.Exceptions.UnauthorizedException;
 import com.recipes.Services.IRecipeServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class RecipeController {
 
     }
 
-    @RequestMapping(value = "/{id}", produces = "application/json", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public HttpEntity updateRecipe(@PathVariable long id, @RequestBody Recipe dataToUpdate) {
         try {
             Recipe updatedRecipe = recipeServices.updateRecipeInfo(id, dataToUpdate);
@@ -38,6 +39,20 @@ public class RecipeController {
             return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (ResourceNotFoundException resourceNotFoundException) {
             return new ResponseEntity<>(resourceNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public HttpEntity deleteRecipe(@RequestHeader(value="userId") long userId, @PathVariable long id) {
+        try {
+            recipeServices.deleteRecipe(userId, id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (IllegalArgumentException illegalArgumentException) {
+            return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ResourceNotFoundException resourceNotFoundException) {
+            return new ResponseEntity<>(resourceNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (UnauthorizedException unauthorizedException) {
+            return new ResponseEntity<>(unauthorizedException.getMessage(), HttpStatus.UNAUTHORIZED);
         }
     }
 
