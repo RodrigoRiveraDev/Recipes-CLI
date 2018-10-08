@@ -1,7 +1,7 @@
-package Controllers;
+package recipesCLI.Controllers;
 
-import Handlers.HttpRequestHandler;
-import Utilitaries.FieldValidator;
+import recipesCLI.Utilitaries.FieldValidator;
+import recipesCLI.Handlers.HttpRequestHandler;
 
 import java.util.Scanner;
 

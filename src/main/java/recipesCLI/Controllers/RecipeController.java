@@ -1,7 +1,7 @@
-package Controllers;
+package recipesCLI.Controllers;
 
-import Handlers.HttpRequestHandler;
-import Services.RecipeServicesCLI;
+import recipesCLI.Handlers.HttpRequestHandler;
+import recipesCLI.Services.RecipeServicesCLI;
 
 import java.util.Scanner;
 

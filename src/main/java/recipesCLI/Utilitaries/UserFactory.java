@@ -1,6 +1,6 @@
-package Utilitaries;
+package recipesCLI.Utilitaries;
 
-import DTO.UserDTO;
+import recipesCLI.DTO.UserDTO;
 
 public class UserFactory {
 
