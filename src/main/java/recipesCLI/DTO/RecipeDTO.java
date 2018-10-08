@@ -1,4 +1,4 @@
-package DTO;
+package recipesCLI.DTO;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,9 @@
-package Services;
+package recipesCLI.Services;
 
-import DTO.IngredientDTO;
-import DTO.RecipeDTO;
-import Handlers.HttpRequestHandler;
-import Utilitaries.IngredientFactory;
+import recipesCLI.DTO.IngredientDTO;
+import recipesCLI.DTO.RecipeDTO;
+import recipesCLI.Handlers.HttpRequestHandler;
+import recipesCLI.Utilitaries.IngredientFactory;
 
 import java.util.HashMap;
 import java.util.List;

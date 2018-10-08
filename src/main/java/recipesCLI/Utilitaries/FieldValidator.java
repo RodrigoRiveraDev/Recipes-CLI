@@ -1,4 +1,4 @@
-package Utilitaries;
+package recipesCLI.Utilitaries;
 
 public class FieldValidator {
     public static int mainOption(String number) {

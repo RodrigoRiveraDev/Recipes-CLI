@@ -1,6 +1,6 @@
-package Handlers;
+package recipesCLI.Handlers;
 
-import DTO.IJSON;
+import recipesCLI.DTO.IJSON;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

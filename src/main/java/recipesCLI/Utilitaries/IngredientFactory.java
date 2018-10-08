@@ -1,6 +1,6 @@
-package Utilitaries;
+package recipesCLI.Utilitaries;
 
-import DTO.IngredientDTO;
+import recipesCLI.DTO.IngredientDTO;
 
 public class IngredientFactory {
     public static IngredientDTO createIngredient(String name, String quantityString, String unit) {
