@@ -1,148 +1,98 @@
 package recipesCLI.Handlers;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import recipesCLI.DTO.IJSON;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Map;
 import java.util.Set;
 
 public class HttpRequestHandler {
 
-    private final String BASE_URL = "http://localhost:8090";
+    private static final String BASE_URL = "http://localhost:8090";
+    private Client client;
+
+    public HttpRequestHandler() {
+        client = Client.create();
+    }
 
     public String sendGet(String endpoint, Map<String, String> parameters, Map<String, String> headers) throws Exception {
-        URL url = new URL(BASE_URL + endpoint);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Accept", "application/json");
+        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
+        WebResource.Builder builder = webResource.type("application/json");
 
-        if (conn.getResponseCode() != 200) {
-            throw new RuntimeException("Failed : HTTP error code : "
-                    + conn.getResponseCode());
+        addHeaders(builder, headers);
+        ClientResponse response = builder.get(ClientResponse.class);
+
+        if (response.getStatus() != HttpURLConnection.HTTP_OK) {
+            String error = response.getEntity(String.class);
+            return "There was and error, try again";
         }
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                (conn.getInputStream())));
-
-        String output;
-        StringBuilder res = new StringBuilder();
-        while ((output = br.readLine()) != null) {
-            res.append(output + "\n");
-        }
-
-        conn.disconnect();
-
-        return res.toString();
+        String output = response.getEntity(String.class);
+        return output;
     }
 
     public String sendPost(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
-        URL url = new URL(BASE_URL + endpoint);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "application/json");
+        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
+        WebResource.Builder builder = webResource.type("application/json");
 
-        if(headers != null)
-            addHeaders(conn, headers);
+        addHeaders(builder, headers);
+        ClientResponse response = builder.post(ClientResponse.class, body.toJSON());
 
-        String input = body.toJSON();
-
-        OutputStream os = conn.getOutputStream();
-        os.write(input.getBytes());
-        os.flush();
-
-        if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-            throw new RuntimeException("Failed : HTTP error code : "
-                    + conn.getResponseCode());
+        if (response.getStatus() != HttpURLConnection.HTTP_OK) {
+            String error = response.getEntity(String.class);
+            System.out.println(error);
+            return "There was and error, try again";
         }
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                (conn.getInputStream())));
-
-        String output;
-        StringBuilder res = new StringBuilder();
-        while ((output = br.readLine()) != null) {
-            res.append(output + "\n");
-        }
-
-        conn.disconnect();
-
-        return res.toString();
+        String output = response.getEntity(String.class);
+        return output;
     }
 
-    private void addHeaders(HttpURLConnection conn, Map<String, String> headers) {
-        Set<String> keys = headers.keySet();
-        for (String key: keys) {
-            conn.setRequestProperty(key, headers.get(key));
+    private void addHeaders(WebResource.Builder builder, Map<String, String> headers) {
+        if(headers != null) {
+            Set<String> keys = headers.keySet();
+            for (String key: keys) {
+                builder.header(key, headers.get(key));
+            }
         }
     }
+
 
     public String sendPut(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
-        URL url = new URL(BASE_URL + endpoint);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-        conn.setRequestMethod("PUT");
-        conn.setRequestProperty("Content-Type", "application/json");
+        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
+        WebResource.Builder builder = webResource.type("application/json");
 
-        String input = body.toJSON();
-        if(headers != null)
-            addHeaders(conn, headers);
+        addHeaders(builder, headers);
 
-        OutputStream os = conn.getOutputStream();
-        os.write(input.getBytes());
-        os.flush();
+        ClientResponse response = builder.put(ClientResponse.class, body);
 
-        if (conn.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
-            System.out.println(conn.getResponseMessage());
-            throw new RuntimeException("Failed : HTTP error code : "
-                    + conn.getResponseCode());
+        if (response.getStatus() != HttpURLConnection.HTTP_OK) {
+            String error = response.getEntity(String.class);
+            return "There was and error, try again";
         }
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                (conn.getInputStream())));
-
-        String output;
-        StringBuilder res = new StringBuilder();
-        while ((output = br.readLine()) != null) {
-            res.append(output + "\n");
-        }
-
-        conn.disconnect();
-
-        return res.toString();
+        String output = response.getEntity(String.class);
+        return output;
     }
 
     public String sendDelete(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
-        URL url = new URL(BASE_URL + endpoint);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-        conn.setRequestMethod("DELETE");
-        conn.setRequestProperty("Content-Type", "application/json");
+        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
+        WebResource.Builder builder = webResource.type("application/json");
 
-        if(headers != null)
-            addHeaders(conn, headers);
+        addHeaders(builder, headers);
 
-        if(body != null) {
-            String input = body.toJSON();
-            OutputStream os = conn.getOutputStream();
-            os.write(input.getBytes());
-            os.flush();
+        ClientResponse response = builder.delete(ClientResponse.class);
+
+        if (response.getStatus() != HttpURLConnection.HTTP_OK) {
+            String error = response.getEntity(String.class);
+            return "There was and error, try again";
         }
 
-        if (conn.getResponseCode() != HttpURLConnection.HTTP_NO_CONTENT) {
-            System.out.println(conn.getResponseMessage());
-            throw new RuntimeException("Failed : HTTP error code : "
-                    + conn.getResponseCode());
-        }
-
-        String output = "Deleted Recipe";
-
-        conn.disconnect();
-
+        String output = response.getEntity(String.class);
         return output;
     }
 

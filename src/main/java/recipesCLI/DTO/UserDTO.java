@@ -1,5 +1,11 @@
 package recipesCLI.DTO;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "user")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class UserDTO implements IJSON {
 
         private long id;
@@ -8,9 +14,12 @@ public class UserDTO implements IJSON {
         private String password;
 
         public UserDTO() {
-            this.fullName = "";
-            this.email = "";
-            this.password = "";
+        }
+
+        public UserDTO(String fullName, String email, String password) {
+            this.fullName = fullName;
+            this.email = email;
+            this.password = password;
         }
 
         public UserDTO(long id, String fullName, String email, String password) {

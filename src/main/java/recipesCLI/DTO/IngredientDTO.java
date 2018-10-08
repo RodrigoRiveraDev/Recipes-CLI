@@ -1,5 +1,11 @@
 package recipesCLI.DTO;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "ingredient")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class IngredientDTO implements IJSON {
 
     private String name;

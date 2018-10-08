@@ -1,8 +1,13 @@
 package recipesCLI.DTO;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlRootElement(name = "recipe")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class RecipeDTO implements IJSON {
 
     private long id;
