@@ -7,8 +7,6 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.apache.log4j.Logger;
 import recipesCLI.DTO.IJSON;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import javax.ws.rs.core.MediaType;
 import java.net.HttpURLConnection;
 import java.util.Map;

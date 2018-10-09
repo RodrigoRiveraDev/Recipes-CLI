@@ -63,11 +63,11 @@ public class RecipeController {
         recipeId = reader.nextLine();
         System.out.println("Add your ingredients:");
         System.out.println("Want to modify ingredient? [Y/N]");
-        String keedAdding = reader.nextLine();
-        while(keedAdding.equals("Y")) {
+        String keepAdding = reader.nextLine();
+        while(keepAdding.equals("Y")) {
             addIngredient();
             System.out.println("Want to add another ingredient? [Y/N]");
-            keedAdding = reader.nextLine();
+            keepAdding = reader.nextLine();
         }
         return recipeServices.finishUpdateRecipe(howElaborate, recipeId, currentId);
     }
