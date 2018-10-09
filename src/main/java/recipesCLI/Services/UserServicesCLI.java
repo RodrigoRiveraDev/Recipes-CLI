@@ -1,8 +1,8 @@
-package Services;
+package recipesCLI.Services;
 
-import DTO.UserDTO;
-import Utilitaries.UserFactory;
-import Handlers.HttpRequestHandler;
+import recipesCLI.DTO.UserDTO;
+import recipesCLI.Utilitaries.UserFactory;
+import recipesCLI.Handlers.HttpRequestHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class UserServicesCLI {
         try {
             return this.httpRequestHandler.sendPost("/users", user, null);
         } catch (Exception ex) {
-            return "There was an error, try again";
+            return ex.getMessage();
         }
     }
 
@@ -30,7 +30,7 @@ public class UserServicesCLI {
             headers.put("userId", Integer.toString(currentId));
             return this.httpRequestHandler.sendPut("/users/"+currentId, user, headers);
         } catch (Exception ex) {
-            return "There was an error, try again";
+            return ex.getMessage();
         }
     }
 
@@ -38,7 +38,7 @@ public class UserServicesCLI {
         try {
             return this.httpRequestHandler.sendGet("/users", null, null);
         } catch (Exception ex) {
-            return "There was an error, try again";
+            return ex.getMessage();
         }
     }
 

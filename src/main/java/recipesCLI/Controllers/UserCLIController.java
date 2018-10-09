@@ -1,10 +1,10 @@
-package Controllers;
+package recipesCLI.Controllers;
 
 import java.util.Scanner;
 
-import Handlers.HttpRequestHandler;
-import Services.UserServicesCLI;
-import Utilitaries.FieldValidator;
+import recipesCLI.Handlers.HttpRequestHandler;
+import recipesCLI.Services.UserServicesCLI;
+import recipesCLI.Utilitaries.FieldValidator;
 
 public class UserCLIController {
 

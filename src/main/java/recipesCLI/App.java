@@ -1,8 +1,16 @@
-import Controllers.ApplicationController;
-import Handlers.HttpRequestHandler;
+package recipesCLI;
 
-public class ApplicationCLI {
-    public static void main(String[] args) {
+import recipesCLI.Controllers.ApplicationController;
+import recipesCLI.Handlers.HttpRequestHandler;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
         HttpRequestHandler httpRequestHandler = new HttpRequestHandler();
 
         ApplicationController applicationController = new ApplicationController(httpRequestHandler);

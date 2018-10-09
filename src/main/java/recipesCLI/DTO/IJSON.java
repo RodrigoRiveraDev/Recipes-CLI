@@ -1,4 +1,4 @@
-package DTO;
+package recipesCLI.DTO;
 
 public interface IJSON {
     String toJSON();
