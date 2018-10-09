@@ -36,7 +36,7 @@ public class RecipeServicesCLI {
             headers.put("userId", Integer.toString(userId));
             return httpRequestHandler.sendPost("/recipes", recipeDTO, headers);
         } catch (Exception ex) {
-            return "There was an error, try again";
+            return ex.getMessage();
         }
     }
 
@@ -47,7 +47,7 @@ public class RecipeServicesCLI {
             headers.put("userId", Integer.toString(userId));
             return httpRequestHandler.sendPut("/recipes/"+recipeId, recipeDTO, headers);
         } catch (Exception ex) {
-            return "There was an error, try again";
+            return ex.getMessage();
         }
     }
 
@@ -55,7 +55,7 @@ public class RecipeServicesCLI {
         try {
             return this.httpRequestHandler.sendGet("/recipes", null, null);
         } catch (Exception ex) {
-            return "There was an error, try again";
+            return ex.getMessage();
         }
     }
 
@@ -63,7 +63,7 @@ public class RecipeServicesCLI {
         try {
             return this.httpRequestHandler.sendGet("/recipes/"+id, null, null);
         } catch (Exception ex) {
-            return "There was an error, try again";
+            return ex.getMessage();
         }
     }
 
@@ -73,7 +73,7 @@ public class RecipeServicesCLI {
             headers.put("userId", Integer.toString(userId));
             return this.httpRequestHandler.sendDelete("/recipes/"+id, null, headers);
         } catch (Exception ex) {
-            return "There was an error, try again";
+            return ex.getMessage();
         }
     }
 }
