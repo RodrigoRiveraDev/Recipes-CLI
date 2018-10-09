@@ -4,31 +4,40 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+import org.apache.log4j.Logger;
 import recipesCLI.DTO.IJSON;
 
+import org.springframework.beans.factory.annotation.Value;
+
+import javax.ws.rs.core.MediaType;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import java.util.Set;
 
+import static org.apache.log4j.BasicConfigurator.*;
+
 public class HttpRequestHandler {
 
+    private static Logger log = Logger.getLogger(HttpRequestHandler.class);
     private static final String BASE_URL = "http://localhost:8090";
     private Client client;
 
     public HttpRequestHandler() {
+        configure();
         client = Client.create();
     }
 
     public String sendGet(String endpoint, Map<String, String> parameters, Map<String, String> headers) throws Exception {
         WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
-        WebResource.Builder builder = webResource.type("application/json");
+        WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
 
         addHeaders(builder, headers);
         ClientResponse response = builder.get(ClientResponse.class);
 
         if (response.getStatus() != HttpURLConnection.HTTP_OK) {
             String error = response.getEntity(String.class);
-            return "There was and error, try again";
+            log.info(error);
+            throw new Exception(response.getStatus() + " - " + error);
         }
 
         String output = response.getEntity(String.class);
@@ -37,15 +46,15 @@ public class HttpRequestHandler {
 
     public String sendPost(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
         WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
-        WebResource.Builder builder = webResource.type("application/json");
+        WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
 
         addHeaders(builder, headers);
         ClientResponse response = builder.post(ClientResponse.class, body.toJSON());
 
         if (response.getStatus() != HttpURLConnection.HTTP_OK) {
             String error = response.getEntity(String.class);
-            System.out.println(error);
-            return "There was and error, try again";
+            log.info(error);
+            throw new Exception(response.getStatus() + " - " + error);
         }
 
         String output = response.getEntity(String.class);
@@ -61,10 +70,9 @@ public class HttpRequestHandler {
         }
     }
 
-
     public String sendPut(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
         WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
-        WebResource.Builder builder = webResource.type("application/json");
+        WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
 
         addHeaders(builder, headers);
 
@@ -72,7 +80,8 @@ public class HttpRequestHandler {
 
         if (response.getStatus() != HttpURLConnection.HTTP_OK) {
             String error = response.getEntity(String.class);
-            return "There was and error, try again";
+            log.info(error);
+            throw new Exception(response.getStatus() + " - " + error);
         }
 
         String output = response.getEntity(String.class);
@@ -81,7 +90,7 @@ public class HttpRequestHandler {
 
     public String sendDelete(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
         WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
-        WebResource.Builder builder = webResource.type("application/json");
+        WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
 
         addHeaders(builder, headers);
 
@@ -89,7 +98,8 @@ public class HttpRequestHandler {
 
         if (response.getStatus() != HttpURLConnection.HTTP_OK) {
             String error = response.getEntity(String.class);
-            return "There was and error, try again";
+            log.info(error);
+            throw new Exception(response.getStatus() + " - " + error);
         }
 
         String output = response.getEntity(String.class);
