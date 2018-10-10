@@ -25,38 +25,37 @@ public class HttpRequestHandler {
         client = Client.create();
     }
 
-    public String sendGet(String endpoint, Map<String, String> parameters, Map<String, String> headers) throws Exception {
-        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
+    private void checkResponse(ClientResponse response, int expectedCode) throws Exception{
+        if(response.getStatus() != expectedCode) {
+            String error = response.getEntity(String.class);
+            log.error(error);
+            throw new Exception(response.getStatus() + " - " + error);
+        }
+    }
+
+    public String sendGet(String endpoint, Map<String, String> parameters, Map<String, String> headers)
+            throws Exception {
+        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
         WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
 
         addHeaders(builder, headers);
         ClientResponse response = builder.get(ClientResponse.class);
 
-        if (response.getStatus() != HttpURLConnection.HTTP_OK) {
-            String error = response.getEntity(String.class);
-            log.info(error);
-            throw new Exception(response.getStatus() + " - " + error);
-        }
+        checkResponse(response, HttpURLConnection.HTTP_OK);
 
-        String output = response.getEntity(String.class);
-        return output;
+        return response.getEntity(String.class);
     }
 
     public String sendPost(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
-        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
+        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
         WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
 
         addHeaders(builder, headers);
         ClientResponse response = builder.post(ClientResponse.class, body.toJSON());
 
-        if (response.getStatus() != HttpURLConnection.HTTP_OK) {
-            String error = response.getEntity(String.class);
-            log.info(error);
-            throw new Exception(response.getStatus() + " - " + error);
-        }
+        checkResponse(response, HttpURLConnection.HTTP_CREATED);
 
-        String output = response.getEntity(String.class);
-        return output;
+        return response.getEntity(String.class);
     }
 
     private void addHeaders(WebResource.Builder builder, Map<String, String> headers) {
@@ -69,39 +68,29 @@ public class HttpRequestHandler {
     }
 
     public String sendPut(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
-        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
+        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
         WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
 
         addHeaders(builder, headers);
 
-        ClientResponse response = builder.put(ClientResponse.class, body);
+        ClientResponse response = builder.put(ClientResponse.class, body.toJSON());
 
-        if (response.getStatus() != HttpURLConnection.HTTP_OK) {
-            String error = response.getEntity(String.class);
-            log.info(error);
-            throw new Exception(response.getStatus() + " - " + error);
-        }
+        checkResponse(response, HttpURLConnection.HTTP_OK);
 
-        String output = response.getEntity(String.class);
-        return output;
+        return response.getEntity(String.class);
     }
 
     public String sendDelete(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
-        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + "/" +endpoint);
+        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
         WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
 
         addHeaders(builder, headers);
 
         ClientResponse response = builder.delete(ClientResponse.class);
 
-        if (response.getStatus() != HttpURLConnection.HTTP_OK) {
-            String error = response.getEntity(String.class);
-            log.info(error);
-            throw new Exception(response.getStatus() + " - " + error);
-        }
+        checkResponse(response, HttpURLConnection.HTTP_OK);
 
-        String output = response.getEntity(String.class);
-        return output;
+        return response.getEntity(String.class);
     }
 
 }
