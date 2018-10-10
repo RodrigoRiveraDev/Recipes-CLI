@@ -5,6 +5,8 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import recipesCLI.DTO.IJSON;
 
 import javax.ws.rs.core.MediaType;
@@ -14,10 +16,12 @@ import java.util.Set;
 
 import static org.apache.log4j.BasicConfigurator.*;
 
+@PropertySource("classpath:application.properties")
 public class HttpRequestHandler {
 
     private static Logger log = Logger.getLogger(HttpRequestHandler.class);
-    private static final String BASE_URL = "http://localhost:8090";
+    @Value("${local.path}")
+    private String BASE_URL; // = "http://localhost:8090";
     private Client client;
 
     public HttpRequestHandler() {
