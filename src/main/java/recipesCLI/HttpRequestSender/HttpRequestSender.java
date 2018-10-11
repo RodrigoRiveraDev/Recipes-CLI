@@ -20,8 +20,8 @@ import static org.apache.log4j.BasicConfigurator.*;
 public class HttpRequestSender {
 
     private static Logger log = Logger.getLogger(HttpRequestSender.class);
-    @Value("${local.path}")
-    private String BASE_URL; // = "http://localhost:8090";
+    //@Value("${local.path}")
+    private String BASE_URL = "http://localhost:8090";
     private Client client;
 
     public HttpRequestSender() {
@@ -29,6 +29,11 @@ public class HttpRequestSender {
         client = Client.create();
     }
 
+    /**
+     * @param response The object will all the information retrieved after call to an endpoint
+     * @param expectedCode The http code that the response should contain
+     * @throws Exception In case that the code is not the expected it will thrown an Exception
+     */
     private void checkResponse(ClientResponse response, int expectedCode) throws Exception{
         if(response.getStatus() != expectedCode) {
             String error = response.getEntity(String.class);
@@ -37,6 +42,13 @@ public class HttpRequestSender {
         }
     }
 
+    /**
+     * @param endpoint The endpoint to call
+     * @param parameters The additional parameters as a Map
+     * @param headers The additional headers as a Map
+     * @return It will return the response as a String
+     * @throws Exception In case that somethings go wrong it will thrown an Exception
+     */
     public String sendGet(String endpoint, Map<String, String> parameters, Map<String, String> headers)
             throws Exception {
         WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
@@ -50,6 +62,13 @@ public class HttpRequestSender {
         return response.getEntity(String.class);
     }
 
+    /**
+     * @param endpoint The endpoint to call
+     * @param body The body that should be able to displayed in Json format
+     * @param headers The additional headers as a Map
+     * @return It will return the response as a String
+     * @throws Exception In case that somethings go wrong it will thrown an Exception
+     */
     public String sendPost(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
         WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
         WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
@@ -62,6 +81,10 @@ public class HttpRequestSender {
         return response.getEntity(String.class);
     }
 
+    /**
+     * @param builder The call to be executed
+     * @param headers The additional headers list as a Map
+     */
     private void addHeaders(WebResource.Builder builder, Map<String, String> headers) {
         if(headers != null) {
             Set<String> keys = headers.keySet();
@@ -71,6 +94,13 @@ public class HttpRequestSender {
         }
     }
 
+    /**
+     * @param endpoint The endpoint to call
+     * @param body The body that should be able to displayed in Json format
+     * @param headers The additional headers as a Map
+     * @return It will return the response as a String
+     * @throws Exception In case that somethings go wrong it will thrown an Exception
+     */
     public String sendPut(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
         WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
         WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
@@ -84,6 +114,13 @@ public class HttpRequestSender {
         return response.getEntity(String.class);
     }
 
+    /**
+     * @param endpoint The endpoint to call
+     * @param body The body that should be able to displayed in Json format
+     * @param headers The additional headers as a Map
+     * @return It will return the response as a String
+     * @throws Exception In case that somethings go wrong it will thrown an Exception
+     */
     public String sendDelete(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
         WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
         WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);

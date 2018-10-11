@@ -14,6 +14,12 @@ public class UserServicesCLI {
         this.httpRequestSender = httpRequestSender;
     }
 
+    /**
+     * @param fullName The user fullName
+     * @param email The user email
+     * @param password The user password
+     * @return It will return the new user as a String with Json format or an error message
+     */
     public String registerUser(String fullName, String email, String password) {
         UserDTO user = UserFactory.createUser(fullName, email, password);
         try {
@@ -23,6 +29,13 @@ public class UserServicesCLI {
         }
     }
 
+    /**
+     * @param currentId The user id that request the update
+     * @param fullName The fullName value
+     * @param email The email value
+     * @param password The password value
+     * @return It will return the updated user as a string with Json format or am error message
+     */
     public String updateUser(int currentId, String fullName, String email, String password) {
         UserDTO user = UserFactory.createUser(fullName, email, password);
         try {
@@ -34,6 +47,9 @@ public class UserServicesCLI {
         }
     }
 
+    /**
+     * @return It will return a list as a String with Json format with all the registered Users
+     */
     public String viewAllUsers() {
         try {
             return this.httpRequestSender.sendGet("/users", null, null);
