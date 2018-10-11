@@ -1,16 +1,28 @@
 package recipesCLI.DTO;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.annotate.*;
 
-@XmlRootElement(name = "ingredient")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class IngredientDTO implements IJSON {
 
+    @JsonProperty
     private String name;
+    @JsonProperty
     private double quantity;
+    @JsonProperty
     private String unit;
+
+    public IngredientDTO() {}
+
+    @JsonCreator
+    public IngredientDTO(
+            @JsonProperty("name") String name,
+            @JsonProperty("quantity") double quantity,
+            @JsonProperty("unit") String unit) {
+        this.name = name;
+        this.quantity = quantity;
+        this.unit = unit;
+    }
 
     /**
      * @return It will return the current quantity value
@@ -22,6 +34,7 @@ public class IngredientDTO implements IJSON {
     /**
      * @param quantity The value param that will replace the actual quantity value
      */
+    @JsonSetter
     public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
@@ -34,8 +47,9 @@ public class IngredientDTO implements IJSON {
     }
 
     /**
-     * @param quantity The value param that will replace the actual name value
+     * @param name The value param that will replace the actual name value
      */
+    @JsonSetter
     public void setName(String name) {
         this.name = name;
     }
@@ -48,8 +62,9 @@ public class IngredientDTO implements IJSON {
     }
 
     /**
-     * @param quantity The value param that will replace the actual unit value
+     * @param unit The value param that will replace the actual unit value
      */
+    @JsonSetter
     public void setUnit(String unit) {
         this.unit = unit;
     }
@@ -57,6 +72,7 @@ public class IngredientDTO implements IJSON {
     /**
      * @return It will return the object as a String with Json format
      */
+
     @Override
     public String toString() {
         return "{"+

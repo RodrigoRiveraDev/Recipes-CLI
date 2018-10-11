@@ -1,29 +1,27 @@
 package recipesCLI.DTO;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonSetter;
 
-@XmlRootElement(name = "user")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class UserDTO implements IJSON {
 
+    @JsonProperty
     private long id;
+    @JsonProperty
     private String fullName;
+    @JsonProperty
     private String email;
+    @JsonProperty
     private String password;
 
     public UserDTO() {
     }
 
-    public UserDTO(String fullName, String email, String password) {
-        this.fullName = fullName;
-        this.email = email;
-        this.password = password;
-    }
-
-    public UserDTO(long id, String fullName, String email, String password) {
-        this.id = id;
+    public UserDTO(@JsonProperty("fullName") String fullName,
+                   @JsonProperty("email") String email,
+                   @JsonProperty("password") String password) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
@@ -39,6 +37,7 @@ public class UserDTO implements IJSON {
     /**
      * @param id The value param that will replace the actual id value
      */
+    @JsonSetter
     public void setId(long id) {
         this.id = id;
     }
@@ -53,6 +52,7 @@ public class UserDTO implements IJSON {
     /**
      * @param fullName The value param that will replace the actual fullName value
      */
+    @JsonSetter
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -67,6 +67,7 @@ public class UserDTO implements IJSON {
     /**
      * @param email The value param that will replace the actual email value
      */
+    @JsonSetter
     public void setEmail(String email) {
         this.email = email;
     }
@@ -81,6 +82,7 @@ public class UserDTO implements IJSON {
     /**
      * @param password The value param that will replace the password id value
      */
+    @JsonSetter
     public void setPassword(String password) {
             this.password = password;
         }

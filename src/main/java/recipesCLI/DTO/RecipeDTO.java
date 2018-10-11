@@ -1,22 +1,34 @@
 package recipesCLI.DTO;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonSetter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlRootElement(name = "recipe")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class RecipeDTO implements IJSON {
 
+    @JsonProperty
     private long id;
+    @JsonProperty
     private List<IngredientDTO> ingredients;
+    @JsonProperty
     private String howElaborate;
+    @JsonProperty
     private long userId;
 
+    @JsonCreator
+    public RecipeDTO(
+            @JsonProperty("ingredients") List<IngredientDTO> ingredients,
+            @JsonProperty("howElaborate") String howElaborate) {
+        this.ingredients = ingredients;
+        this.howElaborate = howElaborate;
+    }
+
     public RecipeDTO() {
-        ingredients = null;
         howElaborate = "";
         ingredients = new ArrayList<>();
     }
@@ -31,6 +43,7 @@ public class RecipeDTO implements IJSON {
     /**
      * @param id The value param that will replace the actual id value
      */
+    @JsonSetter
     public void setId(long id) {
         this.id = id;
     }
@@ -45,6 +58,7 @@ public class RecipeDTO implements IJSON {
     /**
      * @param howElaborate The value param that will replace the actual howElaborate value
      */
+    @JsonSetter
     public void setHowElaborate(String howElaborate) {
         this.howElaborate = howElaborate;
     }
@@ -59,6 +73,7 @@ public class RecipeDTO implements IJSON {
     /**
      * @param ingredients The value param that will replace the actual ingredients list
      */
+    @JsonSetter
     public void setIngredients(List<IngredientDTO> ingredients) {
         this.ingredients = ingredients;
     }
@@ -73,13 +88,9 @@ public class RecipeDTO implements IJSON {
     /**
      * @param userID The value param that will replace the actual userId value
      */
+    @JsonSetter
     public void setUserId(long userId) {
         this.userId = userId;
-    }
-
-    public RecipeDTO(List<IngredientDTO> ingredients, String howElaborate) {
-        this.ingredients = ingredients;
-        this.howElaborate = howElaborate;
     }
 
     /**
