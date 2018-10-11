@@ -18,11 +18,18 @@ public class ApplicationController {
         reader = new Scanner(System.in);
     }
 
+    /**
+     * This method is the first one to display the message
+     */
     public void enterUserId() {
         System.out.println("Enter your id, by default will be 0");
         userId = Integer.parseInt(reader.nextLine());
     }
 
+    /**
+     * This method is to display the menu and read the selected option by the user
+     * @return This will return the option provided by the user
+     */
     public int getInitInstructions() {
         System.out.println( "1. To Register new User\n"+
                 "2. List all users\n"+
@@ -36,6 +43,10 @@ public class ApplicationController {
         return FieldValidator.mainOption(reader.nextLine());
     }
 
+    /**
+     * @param value The selected option by the user
+     * @return It will return the instructions to interact with the selected option
+     */
     public String selectOption(int value) {
         switch (value) {
             case 1 : {
