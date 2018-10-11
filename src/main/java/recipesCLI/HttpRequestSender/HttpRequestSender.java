@@ -4,12 +4,16 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+import javafx.scene.chart.BarChart;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import recipesCLI.CustomExceptions.BadResponseException;
+import recipesCLI.CustomExceptions.CustomConnectionException;
 import recipesCLI.DTO.IJSON;
 
 import javax.ws.rs.core.MediaType;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import java.util.Set;
@@ -34,12 +38,18 @@ public class HttpRequestSender {
      * @param expectedCode The http code that the response should contain
      * @throws Exception In case that the code is not the expected it will thrown an Exception
      */
-    private void checkResponse(ClientResponse response, int expectedCode) throws Exception{
+    private void checkResponse(ClientResponse response, int expectedCode) throws BadResponseException {
         if(response.getStatus() != expectedCode) {
             String error = response.getEntity(String.class);
             log.error(error);
-            throw new Exception(response.getStatus() + " - " + error);
+            throw new BadResponseException(response.getStatus() + " - " + error);
         }
+    }
+
+    private WebResource.Builder generateWRBuilder(String endpoint) throws ConnectException {
+        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
+        WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
+        return builder;
     }
 
     /**
@@ -50,13 +60,15 @@ public class HttpRequestSender {
      * @throws Exception In case that somethings go wrong it will thrown an Exception
      */
     public String sendGet(String endpoint, Map<String, String> parameters, Map<String, String> headers)
-            throws Exception {
-        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
-        WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
+            throws ConnectException, CustomConnectionException, BadResponseException {
+        //WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
+        //WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
+
+        WebResource.Builder builder = generateWRBuilder(endpoint);
 
         addHeaders(builder, headers);
-        ClientResponse response = builder.get(ClientResponse.class);
 
+        ClientResponse response = builder.get(ClientResponse.class);
         checkResponse(response, HttpURLConnection.HTTP_OK);
 
         return response.getEntity(String.class);
@@ -69,7 +81,8 @@ public class HttpRequestSender {
      * @return It will return the response as a String
      * @throws Exception In case that somethings go wrong it will thrown an Exception
      */
-    public String sendPost(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
+    public String sendPost(String endpoint, IJSON body, Map<String, String> headers)
+            throws CustomConnectionException, BadResponseException {
         WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
         WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
 
@@ -101,7 +114,8 @@ public class HttpRequestSender {
      * @return It will return the response as a String
      * @throws Exception In case that somethings go wrong it will thrown an Exception
      */
-    public String sendPut(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
+    public String sendPut(String endpoint, IJSON body, Map<String, String> headers)
+            throws CustomConnectionException, BadResponseException {
         WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
         WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
 
@@ -121,7 +135,8 @@ public class HttpRequestSender {
      * @return It will return the response as a String
      * @throws Exception In case that somethings go wrong it will thrown an Exception
      */
-    public String sendDelete(String endpoint, IJSON body, Map<String, String> headers) throws Exception {
+    public String sendDelete(String endpoint, IJSON body, Map<String, String> headers)
+            throws CustomConnectionException, BadResponseException {
         WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
         WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
 

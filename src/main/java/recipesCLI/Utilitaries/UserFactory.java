@@ -11,7 +11,7 @@ public class UserFactory {
      * @return It will return a UserDTO object with the provided data
      */
     public static UserDTO createUser(String fullName, String email, String password) {
-        return new UserDTO(0, fullName, email, password);
+        return new UserDTO(fullName, email, password);
     }
 
 }
