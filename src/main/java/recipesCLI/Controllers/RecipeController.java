@@ -1,6 +1,6 @@
 package recipesCLI.Controllers;
 
-import recipesCLI.Handlers.HttpRequestHandler;
+import recipesCLI.HttpRequestSender.HttpRequestSender;
 import recipesCLI.Services.RecipeServicesCLI;
 
 import java.util.Scanner;
@@ -10,9 +10,9 @@ public class RecipeController {
     private RecipeServicesCLI recipeServices;
     private Scanner reader;
 
-    public RecipeController(HttpRequestHandler httpRequestHandler) {
+    public RecipeController(HttpRequestSender httpRequestSender) {
         reader = new Scanner(System.in);
-        recipeServices = new RecipeServicesCLI(httpRequestHandler);
+        recipeServices = new RecipeServicesCLI(httpRequestSender);
     }
 
     private void addIngredient() {
