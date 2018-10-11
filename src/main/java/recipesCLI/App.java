@@ -1,19 +1,15 @@
 package recipesCLI;
 
 import recipesCLI.Controllers.ApplicationController;
-import recipesCLI.Handlers.HttpRequestHandler;
+import recipesCLI.HttpRequestSender.HttpRequestSender;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )
     {
-        HttpRequestHandler httpRequestHandler = new HttpRequestHandler();
+        HttpRequestSender httpRequestSender = new HttpRequestSender();
 
-        ApplicationController applicationController = new ApplicationController(httpRequestHandler);
+        ApplicationController applicationController = new ApplicationController(httpRequestSender);
 
         applicationController.enterUserId();
 

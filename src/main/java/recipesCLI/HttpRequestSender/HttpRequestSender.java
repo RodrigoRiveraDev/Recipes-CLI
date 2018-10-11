@@ -1,4 +1,4 @@
-package recipesCLI.Handlers;
+package recipesCLI.HttpRequestSender;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -17,14 +17,14 @@ import java.util.Set;
 import static org.apache.log4j.BasicConfigurator.*;
 
 @PropertySource("classpath:application.properties")
-public class HttpRequestHandler {
+public class HttpRequestSender {
 
-    private static Logger log = Logger.getLogger(HttpRequestHandler.class);
+    private static Logger log = Logger.getLogger(HttpRequestSender.class);
     @Value("${local.path}")
     private String BASE_URL; // = "http://localhost:8090";
     private Client client;
 
-    public HttpRequestHandler() {
+    public HttpRequestSender() {
         configure();
         client = Client.create();
     }

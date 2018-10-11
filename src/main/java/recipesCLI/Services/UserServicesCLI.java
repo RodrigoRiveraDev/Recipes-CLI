@@ -2,22 +2,22 @@ package recipesCLI.Services;
 
 import recipesCLI.DTO.UserDTO;
 import recipesCLI.Utilitaries.UserFactory;
-import recipesCLI.Handlers.HttpRequestHandler;
+import recipesCLI.HttpRequestSender.HttpRequestSender;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class UserServicesCLI {
-    private HttpRequestHandler httpRequestHandler;
+    private HttpRequestSender httpRequestSender;
 
-    public UserServicesCLI (HttpRequestHandler httpRequestHandler) {
-        this.httpRequestHandler = httpRequestHandler;
+    public UserServicesCLI (HttpRequestSender httpRequestSender) {
+        this.httpRequestSender = httpRequestSender;
     }
 
     public String registerUser(String fullName, String email, String password) {
         UserDTO user = UserFactory.createUser(fullName, email, password);
         try {
-            return this.httpRequestHandler.sendPost("/users", user, null);
+            return this.httpRequestSender.sendPost("/users", user, null);
         } catch (Exception ex) {
             return ex.getMessage();
         }
@@ -28,7 +28,7 @@ public class UserServicesCLI {
         try {
             Map<String, String> headers = new HashMap<>();
             headers.put("userId", Integer.toString(currentId));
-            return this.httpRequestHandler.sendPut("/users/"+currentId, user, headers);
+            return this.httpRequestSender.sendPut("/users/"+currentId, user, headers);
         } catch (Exception ex) {
             return ex.getMessage();
         }
@@ -36,7 +36,7 @@ public class UserServicesCLI {
 
     public String viewAllUsers() {
         try {
-            return this.httpRequestHandler.sendGet("/users", null, null);
+            return this.httpRequestSender.sendGet("/users", null, null);
         } catch (Exception ex) {
             return ex.getMessage();
         }

@@ -2,7 +2,7 @@ package recipesCLI.Controllers;
 
 import java.util.Scanner;
 
-import recipesCLI.Handlers.HttpRequestHandler;
+import recipesCLI.HttpRequestSender.HttpRequestSender;
 import recipesCLI.Services.UserServicesCLI;
 import recipesCLI.Utilitaries.FieldValidator;
 
@@ -11,9 +11,9 @@ public class UserCLIController {
     private UserServicesCLI userServices;
     private Scanner reader;
 
-    public UserCLIController(HttpRequestHandler httpRequestHandler) {
+    public UserCLIController(HttpRequestSender httpRequestSender) {
         reader = new Scanner(System.in);
-        userServices = new UserServicesCLI(httpRequestHandler);
+        userServices = new UserServicesCLI(httpRequestSender);
     }
 
     public String enterUserId() {
