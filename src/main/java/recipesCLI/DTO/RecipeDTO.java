@@ -53,7 +53,7 @@ public class RecipeDTO implements IJSON {
     }
 
     /**
-     * @param userId The value param that will replace the actual userId value
+     * @param id The value param that will replace the actual id value
      */
     @JsonProperty("userId")
     public void setUserId(long id) {

@@ -32,7 +32,7 @@ public class HttpRequestSender {
     /**
      * @param response The object will all the information retrieved after call to an endpoint
      * @param expectedCode The http code that the response should contain
-     * @throws Exception In case that the code is not the expected it will thrown an Exception
+     * @throws BadResponseException In case that the code is not the expected it will thrown an Exception
      */
     private void checkResponse(ClientResponse response, int expectedCode) throws BadResponseException {
         if(response.getStatus() != expectedCode) {
@@ -45,8 +45,7 @@ public class HttpRequestSender {
     private WebResource.Builder generateWRBuilder(String endpoint) throws CustomConnectionException {
         try {
             WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
-            WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
-            return builder;
+            return webResource.type(MediaType.APPLICATION_JSON);
         } catch (Exception ex) {
             throw new CustomConnectionException();
         }
@@ -57,7 +56,7 @@ public class HttpRequestSender {
      * @param parameters The additional parameters as a Map
      * @param headers The additional headers as a Map
      * @return It will return the response as a String
-     * @throws Exception In case that somethings go wrong it will thrown an Exception
+     * @throws (CustomConnectionException BadResponseException) In case that somethings go wrong it will thrown an Exception
      */
     public String sendGet(String endpoint, Map<String, String> parameters, Map<String, String> headers)
             throws CustomConnectionException, BadResponseException {
@@ -77,7 +76,7 @@ public class HttpRequestSender {
      * @param body The body that should be able to displayed in Json format
      * @param headers The additional headers as a Map
      * @return It will return the response as a String
-     * @throws Exception In case that somethings go wrong it will thrown an Exception
+     * @throws (CustomConnectionException, BadResponseException) In case that somethings go wrong it will thrown an Exception
      */
     public String sendPost(String endpoint, IJSON body, Map<String, String> headers)
             throws CustomConnectionException, BadResponseException {
@@ -109,7 +108,7 @@ public class HttpRequestSender {
      * @param body The body that should be able to displayed in Json format
      * @param headers The additional headers as a Map
      * @return It will return the response as a String
-     * @throws Exception In case that somethings go wrong it will thrown an Exception
+     * @throws (CustomConnectionException, BadResponseException) In case that somethings go wrong it will thrown an Exception
      */
     public String sendPut(String endpoint, IJSON body, Map<String, String> headers)
             throws CustomConnectionException, BadResponseException {
@@ -129,7 +128,7 @@ public class HttpRequestSender {
      * @param body The body that should be able to displayed in Json format
      * @param headers The additional headers as a Map
      * @return It will return the response as a String
-     * @throws Exception In case that somethings go wrong it will thrown an Exception
+     * @throws (CustomConnectionException, BadResponseException) In case that somethings go wrong it will thrown an Exception
      */
     public String sendDelete(String endpoint, IJSON body, Map<String, String> headers)
             throws CustomConnectionException, BadResponseException {

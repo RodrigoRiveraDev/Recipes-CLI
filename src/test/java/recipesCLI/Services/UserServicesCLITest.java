@@ -11,11 +11,9 @@ import static org.junit.Assert.*;
 public class UserServicesCLITest {
 
     private UserServicesCLI userServicesCLI;
-    private ObjectMapper mapper;
 
     @Before
     public void setUp() {
-        mapper = new ObjectMapper();
         userServicesCLI = new UserServicesCLI(new HttpRequestSender());
     }
 

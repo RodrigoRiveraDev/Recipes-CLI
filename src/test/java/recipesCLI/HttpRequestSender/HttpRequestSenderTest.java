@@ -54,9 +54,9 @@ public class HttpRequestSenderTest {
     public void sendPostThrownBadResponseException()
             throws BadResponseException, CustomConnectionException {
         UserDTO userDTO = new UserDTO("fullName1", "email1", "password1");
-        String response = httpRequestSender.sendPost("/users", userDTO, null);
+        httpRequestSender.sendPost("/users", userDTO, null);
         thrown.expect(BadResponseException.class);
-        response = httpRequestSender.sendPost("/users", userDTO, null);
+        httpRequestSender.sendPost("/users", userDTO, null);
     }
 
     @Test
@@ -78,7 +78,7 @@ public class HttpRequestSenderTest {
         httpRequestSender.sendPost("/users", userDTO, headers);
         userDTO.setFullName("NewFullName");
         thrown.expect(BadResponseException.class);
-        String response = httpRequestSender.sendPut("/users/1", userDTO, headers);
+        httpRequestSender.sendPut("/users/1", userDTO, headers);
     }
 
     @Test

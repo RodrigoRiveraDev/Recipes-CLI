@@ -42,11 +42,11 @@ public class RecipeController {
         System.out.println("Add your ingredients:");
         addIngredient();
         System.out.println("Want to add another ingredient? [Y/N]");
-        String keedAdding = reader.nextLine();
-        while(keedAdding.equals("Y")) {
+        String keepAdding = reader.nextLine();
+        while(keepAdding.equals("Y")) {
             addIngredient();
             System.out.println("Want to add another ingredient? [Y/N]");
-            keedAdding = reader.nextLine();
+            keepAdding = reader.nextLine();
         }
         return recipeServices.finishRegisterRecipe(howElaborate, currentId);
     }
@@ -93,7 +93,7 @@ public class RecipeController {
 
     /**
      * @param currentId The user id that request the deletion
-     * @return A successfull message or an error message
+     * @return A successful message or an error message
      */
     public String deleteRecipe(int currentId) {
         String id;
