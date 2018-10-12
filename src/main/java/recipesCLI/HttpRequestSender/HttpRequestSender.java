@@ -4,16 +4,13 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import javafx.scene.chart.BarChart;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import recipesCLI.CustomExceptions.BadResponseException;
 import recipesCLI.CustomExceptions.CustomConnectionException;
 import recipesCLI.DTO.IJSON;
 
 import javax.ws.rs.core.MediaType;
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +21,6 @@ import static org.apache.log4j.BasicConfigurator.*;
 public class HttpRequestSender {
 
     private static Logger log = Logger.getLogger(HttpRequestSender.class);
-    //@Value("${local.path}")
     private String BASE_URL = "http://localhost:8090";
     private Client client;
 
@@ -46,10 +42,14 @@ public class HttpRequestSender {
         }
     }
 
-    private WebResource.Builder generateWRBuilder(String endpoint) throws ConnectException {
-        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
-        WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
-        return builder;
+    private WebResource.Builder generateWRBuilder(String endpoint) throws CustomConnectionException {
+        try {
+            WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
+            WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
+            return builder;
+        } catch (Exception ex) {
+            throw new CustomConnectionException();
+        }
     }
 
     /**
@@ -60,9 +60,7 @@ public class HttpRequestSender {
      * @throws Exception In case that somethings go wrong it will thrown an Exception
      */
     public String sendGet(String endpoint, Map<String, String> parameters, Map<String, String> headers)
-            throws ConnectException, CustomConnectionException, BadResponseException {
-        //WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
-        //WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
+            throws CustomConnectionException, BadResponseException {
 
         WebResource.Builder builder = generateWRBuilder(endpoint);
 
@@ -83,8 +81,7 @@ public class HttpRequestSender {
      */
     public String sendPost(String endpoint, IJSON body, Map<String, String> headers)
             throws CustomConnectionException, BadResponseException {
-        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
-        WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
+        WebResource.Builder builder = generateWRBuilder(endpoint);
 
         addHeaders(builder, headers);
         ClientResponse response = builder.post(ClientResponse.class, body.toJSON());
@@ -116,8 +113,7 @@ public class HttpRequestSender {
      */
     public String sendPut(String endpoint, IJSON body, Map<String, String> headers)
             throws CustomConnectionException, BadResponseException {
-        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
-        WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
+        WebResource.Builder builder = generateWRBuilder(endpoint);
 
         addHeaders(builder, headers);
 
@@ -137,16 +133,15 @@ public class HttpRequestSender {
      */
     public String sendDelete(String endpoint, IJSON body, Map<String, String> headers)
             throws CustomConnectionException, BadResponseException {
-        WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
-        WebResource.Builder builder = webResource.type(MediaType.APPLICATION_JSON);
+        WebResource.Builder builder = generateWRBuilder(endpoint);
 
         addHeaders(builder, headers);
 
         ClientResponse response = builder.delete(ClientResponse.class);
 
-        checkResponse(response, HttpURLConnection.HTTP_OK);
+        checkResponse(response, HttpURLConnection.HTTP_NO_CONTENT);
 
-        return response.getEntity(String.class);
+        return "Successfully deleted";
     }
 
 }

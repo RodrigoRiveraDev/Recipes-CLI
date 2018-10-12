@@ -1,7 +1,7 @@
 package recipesCLI.CustomExceptions;
 
 public class CustomConnectionException extends Exception {
-    public CustomConnectionException(String message) {
-        super(message);
+    public CustomConnectionException() {
+        super("There was a problem with the connection");
     }
 }

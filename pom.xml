@@ -8,7 +8,7 @@
   <artifactId>recipesCLI</artifactId>
   <version>1.0.0</version>
 
-  <name>recipesCLI</name>
+  <fullName>recipesCLI</fullName>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,6 +29,9 @@
     <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
     <maven.resources.plugin.version>3.0.2</maven.resources.plugin.version>
     <maven.clean.plugin.version>3.0.0</maven.clean.plugin.version>
+    <json.path.version>2.4.0</json.path.version>
+    <jackson.annotations.version>2.9.7</jackson.annotations.version>
+    <jackson.databind.version>2.9.7</jackson.databind.version>
   </properties>
 
   <dependencies>
@@ -36,6 +39,12 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.jayway.jsonpath</groupId>
+      <artifactId>json-path</artifactId>
+      <version>${json.path.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -73,6 +82,16 @@
       <artifactId>spring-core</artifactId>
       <version>${spring.core.version}</version>
     </dependency>
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-annotations</artifactId>
+          <version>${jackson.annotations.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+          <version>${jackson.databind.version}</version>
+      </dependency>
   </dependencies>
 
   <build>
