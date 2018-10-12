@@ -13,6 +13,7 @@ import recipes.sharedDomain.DTO.IJSON;
 import javax.ws.rs.core.MediaType;
 import java.net.HttpURLConnection;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import static org.apache.log4j.BasicConfigurator.*;
@@ -21,6 +22,7 @@ import static org.apache.log4j.BasicConfigurator.*;
 public class HttpRequestSender {
 
     private static final Logger log = Logger.getLogger(HttpRequestSender.class);
+    private static ResourceBundle resourceBundle = ResourceBundle.getBundle("application");
 
     public HttpRequestSender() {
         configure();
@@ -46,7 +48,7 @@ public class HttpRequestSender {
      */
     private WebResource.Builder generateWRBuilder(String endpoint) throws CustomConnectionException {
         try {
-            String BASE_URL = "http://localhost:8090";
+            String BASE_URL = resourceBundle.getString("local.path");
             WebResource webResource = Client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
             return webResource.type(MediaType.APPLICATION_JSON);
         } catch (Exception ex) {
@@ -149,5 +151,5 @@ public class HttpRequestSender {
 
         return "Successfully deleted";
     }
-
+    
 }
