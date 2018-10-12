@@ -57,5 +57,4 @@ public class UserServicesCLI {
             return ex.getMessage();
         }
     }
-
 }
