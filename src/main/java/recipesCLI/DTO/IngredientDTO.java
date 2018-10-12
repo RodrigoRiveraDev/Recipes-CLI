@@ -1,16 +1,26 @@
 package recipesCLI.DTO;
 
-import org.codehaus.jackson.annotate.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "name",
+        "unit",
+        "quantity"
+})
 public class IngredientDTO implements IJSON {
 
-    @JsonProperty
+    @JsonProperty("id")
+    private long id;
+    @JsonProperty("name")
     private String name;
-    @JsonProperty
-    private double quantity;
-    @JsonProperty
+    @JsonProperty("unit")
     private String unit;
+    @JsonProperty("quantity")
+    private double quantity;
 
     public IngredientDTO() {}
 
@@ -25,23 +35,25 @@ public class IngredientDTO implements IJSON {
     }
 
     /**
-     * @return It will return the current quantity value
+     * @return It will return the current id value
      */
-    public double getQuantity() {
-        return quantity;
+    @JsonProperty("id")
+    public long getId() {
+        return id;
     }
 
     /**
-     * @param quantity The value param that will replace the actual quantity value
+     * @param id The value param that will replace the actual id value
      */
-    @JsonSetter
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
+    @JsonProperty("id")
+    public void setId(long id) {
+        this.id = id;
     }
 
     /**
      * @return It will return the current name value
      */
+    @JsonProperty("name")
     public String getName() {
         return name;
     }
@@ -49,7 +61,7 @@ public class IngredientDTO implements IJSON {
     /**
      * @param name The value param that will replace the actual name value
      */
-    @JsonSetter
+    @JsonProperty("name")
     public void setName(String name) {
         this.name = name;
     }
@@ -57,6 +69,7 @@ public class IngredientDTO implements IJSON {
     /**
      * @return It will return the current unit value
      */
+    @JsonProperty("unit")
     public String getUnit() {
         return unit;
     }
@@ -64,22 +77,25 @@ public class IngredientDTO implements IJSON {
     /**
      * @param unit The value param that will replace the actual unit value
      */
-    @JsonSetter
+    @JsonProperty("unit")
     public void setUnit(String unit) {
         this.unit = unit;
     }
 
     /**
-     * @return It will return the object as a String with Json format
+     * @return It will return the current quantity value
      */
+    @JsonProperty("quantity")
+    public double getQuantity() {
+        return quantity;
+    }
 
-    @Override
-    public String toString() {
-        return "{"+
-                "\"name\" : \"" + name + "\"" +
-                ",\"quantity\" : \"" + quantity + "\"" +
-                ",\"unit\" : \"" + unit + "\""
-                +"}";
+    /**
+     * @param quantity The value param that will replace the actual quantity value
+     */
+    @JsonProperty("quantity")
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
 
     /**
@@ -87,6 +103,10 @@ public class IngredientDTO implements IJSON {
      */
     @Override
     public String toJSON() {
-        return this.toString();
+        return "{"+
+                "\"name\" : \"" + name + "\"" +
+                ",\"quantity\" : \"" + quantity + "\"" +
+                ",\"unit\" : \"" + unit + "\""
+                +"}";
     }
 }

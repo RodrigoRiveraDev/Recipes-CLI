@@ -1,23 +1,28 @@
 package recipesCLI.DTO;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "id",
+        "fullName",
+        "password",
+        "email"
+})
 public class UserDTO implements IJSON {
 
-    @JsonProperty
+    @JsonProperty("id")
     private long id;
-    @JsonProperty
+    @JsonProperty("fullName")
     private String fullName;
-    @JsonProperty
-    private String email;
-    @JsonProperty
+    @JsonProperty("password")
     private String password;
+    @JsonProperty("email")
+    private String email;
 
-    public UserDTO() {
-    }
+    public UserDTO() {}
 
     public UserDTO(@JsonProperty("fullName") String fullName,
                    @JsonProperty("email") String email,
@@ -30,6 +35,7 @@ public class UserDTO implements IJSON {
     /**
      * @return It will return the current id value
      */
+    @JsonProperty("id")
     public long getId() {
         return id;
     }
@@ -37,7 +43,7 @@ public class UserDTO implements IJSON {
     /**
      * @param id The value param that will replace the actual id value
      */
-    @JsonSetter
+    @JsonProperty("id")
     public void setId(long id) {
         this.id = id;
     }
@@ -45,6 +51,7 @@ public class UserDTO implements IJSON {
     /**
      * @return It will return the current fullName value
      */
+    @JsonProperty("fullName")
     public String getFullName() {
         return fullName;
     }
@@ -52,14 +59,31 @@ public class UserDTO implements IJSON {
     /**
      * @param fullName The value param that will replace the actual fullName value
      */
-    @JsonSetter
+    @JsonProperty("fullName")
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
     /**
+     * @return It will return the current password value
+     */
+    @JsonProperty("password")
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password The value param that will replace the actual password value
+     */
+    @JsonProperty("password")
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
      * @return It will return the current email value
      */
+    @JsonProperty("email")
     public String getEmail() {
         return email;
     }
@@ -67,37 +91,9 @@ public class UserDTO implements IJSON {
     /**
      * @param email The value param that will replace the actual email value
      */
-    @JsonSetter
+    @JsonProperty("email")
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    /**
-     * @return It will return the current password value
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @param password The value param that will replace the password id value
-     */
-    @JsonSetter
-    public void setPassword(String password) {
-            this.password = password;
-        }
-
-    /**
-     * @return It will return the object as a String with Json format
-     */
-    @Override
-    public String toString() {
-        return "{"+
-                "\"id\" : \"" + id + "\"" +
-                ",\"fullName\" : \"" + fullName + "\"" +
-                ",\"email\" : \"" + email + "\"" +
-                ",\"password\" : \"" + password + "\""
-                +"}";
     }
 
     /**
@@ -105,6 +101,11 @@ public class UserDTO implements IJSON {
      */
     @Override
     public String toJSON() {
-            return this.toString();
-        }
+        return "{"+
+                "\"id\" : \"" + id + "\"" +
+                ",\"fullName\" : \"" + fullName + "\"" +
+                ",\"email\" : \"" + email + "\"" +
+                ",\"password\" : \"" + password + "\""
+                +"}";
+    }
 }

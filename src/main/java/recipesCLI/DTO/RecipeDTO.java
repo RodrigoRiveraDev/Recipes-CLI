@@ -1,41 +1,37 @@
 package recipesCLI.DTO;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonSetter;
-
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "id",
+        "howElaborate",
+        "ingredients",
+        "userId"
+})
 public class RecipeDTO implements IJSON {
 
-    @JsonProperty
+    @JsonProperty("id")
     private long id;
-    @JsonProperty
-    private List<IngredientDTO> ingredients;
-    @JsonProperty
+    @JsonProperty("howElaborate")
     private String howElaborate;
-    @JsonProperty
+    @JsonProperty("ingredients")
+    private List<IngredientDTO> ingredientsDTO;
+    @JsonProperty("userId")
     private long userId;
 
-    @JsonCreator
-    public RecipeDTO(
-            @JsonProperty("ingredients") List<IngredientDTO> ingredients,
-            @JsonProperty("howElaborate") String howElaborate) {
-        this.ingredients = ingredients;
-        this.howElaborate = howElaborate;
-    }
-
     public RecipeDTO() {
-        howElaborate = "";
-        ingredients = new ArrayList<>();
+        ingredientsDTO = new ArrayList<>();
     }
 
     /**
      * @return It will return the current id value
      */
+    @JsonProperty("id")
     public long getId() {
         return id;
     }
@@ -43,14 +39,31 @@ public class RecipeDTO implements IJSON {
     /**
      * @param id The value param that will replace the actual id value
      */
-    @JsonSetter
+    @JsonProperty("id")
     public void setId(long id) {
         this.id = id;
     }
 
     /**
+     * @return It will return the current userId value
+     */
+    @JsonProperty("userId")
+    public long getUserId() {
+        return userId;
+    }
+
+    /**
+     * @param userId The value param that will replace the actual userId value
+     */
+    @JsonProperty("userId")
+    public void setUserId(long id) {
+        this.userId = id;
+    }
+
+    /**
      * @return It will return the current howElaborate value
      */
+    @JsonProperty("howElaborate")
     public String getHowElaborate() {
         return howElaborate;
     }
@@ -58,7 +71,7 @@ public class RecipeDTO implements IJSON {
     /**
      * @param howElaborate The value param that will replace the actual howElaborate value
      */
-    @JsonSetter
+    @JsonProperty("howElaborate")
     public void setHowElaborate(String howElaborate) {
         this.howElaborate = howElaborate;
     }
@@ -66,31 +79,17 @@ public class RecipeDTO implements IJSON {
     /**
      * @return It will return the current ingredients list
      */
+    @JsonProperty("ingredients")
     public List<IngredientDTO> getIngredients() {
-        return ingredients;
+        return ingredientsDTO;
     }
 
     /**
-     * @param ingredients The value param that will replace the actual ingredients list
+     * @param ingredientsDTO The value param that will replace the actual ingredients list
      */
-    @JsonSetter
-    public void setIngredients(List<IngredientDTO> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    /**
-     * @return It will return the current userId value
-     */
-    public long getUserId() {
-        return userId;
-    }
-
-    /**
-     * @param userID The value param that will replace the actual userId value
-     */
-    @JsonSetter
-    public void setUserId(long userId) {
-        this.userId = userId;
+    @JsonProperty("ingredients")
+    public void setIngredients(List<IngredientDTO> ingredientsDTO) {
+        this.ingredientsDTO = ingredientsDTO;
     }
 
     /**
@@ -99,7 +98,7 @@ public class RecipeDTO implements IJSON {
     private String ingredientsToJSON() {
         StringBuilder res = new StringBuilder();
         boolean first = true;
-        for (IngredientDTO ingredient: ingredients) {
+        for (IngredientDTO ingredient: ingredientsDTO) {
             if(first) {
                 first = false;
             } else {
@@ -114,20 +113,12 @@ public class RecipeDTO implements IJSON {
      * @return It will return the object as a String with Json format
      */
     @Override
-    public String toString() {
+    public String toJSON() {
         return "{"+
                 "\"id\" : \"" + id + "\"" +
                 ",\"ingredients\" : [" + ingredientsToJSON() + "]" +
                 ",\"howElaborate\" : \"" + howElaborate + "\"" +
                 ",\"userId\" : \"" + userId + "\""
                 +"}";
-    }
-
-    /**
-     * @return It will return the object as a String with Json format
-     */
-    @Override
-    public String toJSON() {
-        return this.toString();
     }
 }
