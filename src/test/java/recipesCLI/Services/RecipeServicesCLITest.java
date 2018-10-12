@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
-import recipesCLI.DTO.RecipeDTO;
+import recipes.sharedDomain.DTO.RecipeDTO;
 import recipesCLI.HttpRequestSender.HttpRequestSender;
 
 import java.io.IOException;
