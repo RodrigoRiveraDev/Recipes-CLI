@@ -8,9 +8,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import recipesCLI.CustomExceptions.BadResponseException;
 import recipesCLI.CustomExceptions.CustomConnectionException;
-import recipesCLI.DTO.IngredientDTO;
-import recipesCLI.DTO.RecipeDTO;
-import recipesCLI.DTO.UserDTO;
+import recipes.sharedDomain.DTO.IngredientDTO;
+import recipes.sharedDomain.DTO.RecipeDTO;
+import recipes.sharedDomain.DTO.UserDTO;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 public class HttpRequestSenderTest {
 
     @Rule
-    public ExpectedException thrown= ExpectedException.none();
+    public final ExpectedException thrown = ExpectedException.none();
 
     private ObjectMapper mapper;
     private HttpRequestSender httpRequestSender;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
-import recipesCLI.DTO.RecipeDTO;
+import recipes.sharedDomain.DTO.RecipeDTO;
 import recipesCLI.HttpRequestSender.HttpRequestSender;
 
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class RecipeServicesCLITest {
     }
 
     @Test
-    public void finishRegisterRecipeError() throws IOException {
+    public void finishRegisterRecipeError() {
         recipeServicesCLI.startRegisteringRecipe();
         String response = recipeServicesCLI.finishRegisterRecipe("recipe", 1000);
         assertThat(response, CoreMatchers.containsString("error"));
