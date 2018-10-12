@@ -85,7 +85,7 @@ public class RecipeServicesCLITest {
     public void getRecipeByIdError() {
         Mockito.when(recipeServicesCLI.getRecipeById(Mockito.anyString()))
                 .thenReturn("error");
-        
+
         String response = recipeServicesCLI.getRecipeById("100000");
         assertThat(response, CoreMatchers.containsString("error"));
     }
