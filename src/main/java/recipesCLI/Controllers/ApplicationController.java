@@ -1,7 +1,7 @@
 package recipesCLI.Controllers;
 
 import recipesCLI.Utilitaries.FieldValidator;
-import recipesCLI.Handlers.HttpRequestHandler;
+import recipesCLI.HttpRequestSender.HttpRequestSender;
 
 import java.util.Scanner;
 
@@ -12,17 +12,24 @@ public class ApplicationController {
     private Scanner reader;
     private int userId;
 
-    public ApplicationController(HttpRequestHandler httpRequestHandler) {
-        recipeController = new RecipeController(httpRequestHandler);
-        userCLIController = new UserCLIController(httpRequestHandler);
+    public ApplicationController(HttpRequestSender httpRequestSender) {
+        recipeController = new RecipeController(httpRequestSender);
+        userCLIController = new UserCLIController(httpRequestSender);
         reader = new Scanner(System.in);
     }
 
+    /**
+     * This method is the first one to display the message
+     */
     public void enterUserId() {
         System.out.println("Enter your id, by default will be 0");
         userId = Integer.parseInt(reader.nextLine());
     }
 
+    /**
+     * This method is to display the menu and read the selected option by the user
+     * @return This will return the option provided by the user
+     */
     public int getInitInstructions() {
         System.out.println( "1. To Register new User\n"+
                 "2. List all users\n"+
@@ -36,6 +43,10 @@ public class ApplicationController {
         return FieldValidator.mainOption(reader.nextLine());
     }
 
+    /**
+     * @param value The selected option by the user
+     * @return It will return the instructions to interact with the selected option
+     */
     public String selectOption(int value) {
         switch (value) {
             case 1 : {
