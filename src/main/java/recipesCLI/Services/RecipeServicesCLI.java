@@ -3,7 +3,7 @@ package recipesCLI.Services;
 import recipes.sharedDomain.DTO.IngredientDTO;
 import recipes.sharedDomain.DTO.RecipeDTO;
 import recipesCLI.HttpRequestSender.HttpRequestSender;
-import recipesCLI.Utilitaries.IngredientFactory;
+import recipes.sharedDomain.Utilitaries.IngredientFactory;
 
 import java.util.HashMap;
 import java.util.List;

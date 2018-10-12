@@ -1,7 +1,7 @@
 package recipesCLI.Services;
 
 import recipes.sharedDomain.DTO.UserDTO;
-import recipesCLI.Utilitaries.UserFactory;
+import recipes.sharedDomain.Utilitaries.UserFactory;
 import recipesCLI.HttpRequestSender.HttpRequestSender;
 
 import java.util.HashMap;
