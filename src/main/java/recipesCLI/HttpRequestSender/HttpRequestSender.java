@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.annotation.PropertySource;
 import recipesCLI.CustomExceptions.BadResponseException;
 import recipesCLI.CustomExceptions.CustomConnectionException;
-import recipesCLI.DTO.IJSON;
+import recipes.sharedDomain.DTO.IJSON;
 
 import javax.ws.rs.core.MediaType;
 import java.net.HttpURLConnection;

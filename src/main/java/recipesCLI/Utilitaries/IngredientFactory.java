@@ -1,6 +1,6 @@
 package recipesCLI.Utilitaries;
 
-import recipesCLI.DTO.IngredientDTO;
+import recipes.sharedDomain.DTO.IngredientDTO;
 
 public class IngredientFactory {
     /**

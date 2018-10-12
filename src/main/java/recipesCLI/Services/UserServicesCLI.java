@@ -1,6 +1,6 @@
 package recipesCLI.Services;
 
-import recipesCLI.DTO.UserDTO;
+import recipes.sharedDomain.DTO.UserDTO;
 import recipesCLI.Utilitaries.UserFactory;
 import recipesCLI.HttpRequestSender.HttpRequestSender;
 

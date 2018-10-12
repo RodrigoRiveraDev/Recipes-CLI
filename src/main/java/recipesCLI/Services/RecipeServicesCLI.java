@@ -1,7 +1,7 @@
 package recipesCLI.Services;
 
-import recipesCLI.DTO.IngredientDTO;
-import recipesCLI.DTO.RecipeDTO;
+import recipes.sharedDomain.DTO.IngredientDTO;
+import recipes.sharedDomain.DTO.RecipeDTO;
 import recipesCLI.HttpRequestSender.HttpRequestSender;
 import recipesCLI.Utilitaries.IngredientFactory;
 
