@@ -23,7 +23,7 @@ import static org.junit.Assert.*;
 public class HttpRequestSenderTest {
 
     @Rule
-    public ExpectedException thrown= ExpectedException.none();
+    public final ExpectedException thrown = ExpectedException.none();
 
     private ObjectMapper mapper;
     private HttpRequestSender httpRequestSender;

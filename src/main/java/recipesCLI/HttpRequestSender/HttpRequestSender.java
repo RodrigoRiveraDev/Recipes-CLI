@@ -20,13 +20,10 @@ import static org.apache.log4j.BasicConfigurator.*;
 @PropertySource("classpath:application.properties")
 public class HttpRequestSender {
 
-    private static Logger log = Logger.getLogger(HttpRequestSender.class);
-    private String BASE_URL = "http://localhost:8090";
-    private Client client;
+    private static final Logger log = Logger.getLogger(HttpRequestSender.class);
 
     public HttpRequestSender() {
         configure();
-        client = Client.create();
     }
 
     /**
@@ -42,9 +39,15 @@ public class HttpRequestSender {
         }
     }
 
+    /**
+     * @param endpoint The endpoint path
+     * @return It will return a WebResourceBuilder with the provided endpoint
+     * @throws CustomConnectionException In cases that something goes wrong with the API connection
+     */
     private WebResource.Builder generateWRBuilder(String endpoint) throws CustomConnectionException {
         try {
-            WebResource webResource = client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
+            String BASE_URL = "http://localhost:8090";
+            WebResource webResource = Client.create( new DefaultClientConfig()).resource(BASE_URL + endpoint);
             return webResource.type(MediaType.APPLICATION_JSON);
         } catch (Exception ex) {
             throw new CustomConnectionException();
@@ -56,7 +59,8 @@ public class HttpRequestSender {
      * @param parameters The additional parameters as a Map
      * @param headers The additional headers as a Map
      * @return It will return the response as a String
-     * @throws (CustomConnectionException BadResponseException) In case that somethings go wrong it will thrown an Exception
+     * @throws CustomConnectionException In case that something goes wrong with the API connection
+     * @throws BadResponseException In case that the response is not the expected
      */
     public String sendGet(String endpoint, Map<String, String> parameters, Map<String, String> headers)
             throws CustomConnectionException, BadResponseException {
@@ -76,7 +80,8 @@ public class HttpRequestSender {
      * @param body The body that should be able to displayed in Json format
      * @param headers The additional headers as a Map
      * @return It will return the response as a String
-     * @throws (CustomConnectionException, BadResponseException) In case that somethings go wrong it will thrown an Exception
+     * @throws CustomConnectionException In case that something goes wrong with the API connection
+     * @throws BadResponseException In case that the response is not the expected
      */
     public String sendPost(String endpoint, IJSON body, Map<String, String> headers)
             throws CustomConnectionException, BadResponseException {
@@ -108,7 +113,8 @@ public class HttpRequestSender {
      * @param body The body that should be able to displayed in Json format
      * @param headers The additional headers as a Map
      * @return It will return the response as a String
-     * @throws (CustomConnectionException, BadResponseException) In case that somethings go wrong it will thrown an Exception
+     * @throws CustomConnectionException In case that something goes wrong with the API connection
+     * @throws BadResponseException In case that the response is not the expected
      */
     public String sendPut(String endpoint, IJSON body, Map<String, String> headers)
             throws CustomConnectionException, BadResponseException {
@@ -128,7 +134,8 @@ public class HttpRequestSender {
      * @param body The body that should be able to displayed in Json format
      * @param headers The additional headers as a Map
      * @return It will return the response as a String
-     * @throws (CustomConnectionException, BadResponseException) In case that somethings go wrong it will thrown an Exception
+     * @throws CustomConnectionException In case that something goes wrong with the API connection
+     * @throws BadResponseException In case that the response is not the expected
      */
     public String sendDelete(String endpoint, IJSON body, Map<String, String> headers)
             throws CustomConnectionException, BadResponseException {
