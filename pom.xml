@@ -8,7 +8,7 @@
   <artifactId>recipesCLI</artifactId>
   <version>1.0.0</version>
 
-  <fullName>recipesCLI</fullName>
+  <name>recipesCLI</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
