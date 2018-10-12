@@ -33,6 +33,7 @@
     <jackson.annotations.version>2.9.7</jackson.annotations.version>
     <jackson.databind.version>2.9.7</jackson.databind.version>
     <RecipesSharedDomain.version>1.0.0</RecipesSharedDomain.version>
+    <mockito-all.version>1.9.5</mockito-all.version>
   </properties>
 
   <dependencies>
@@ -97,6 +98,12 @@
       <groupId>RecipesSharedDomain</groupId>
       <artifactId>RecipesSharedDomain</artifactId>
       <version>${RecipesSharedDomain.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>${mockito-all.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
